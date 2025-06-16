@@ -12,7 +12,7 @@
         }
         
         body {
-            font-family: 'Arial', sans-serif;
+            font-family: Arial, sans-serif;
             background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
             min-height: 100vh;
             padding: 20px;
@@ -33,38 +33,17 @@
             padding: 40px;
             text-align: center;
             position: relative;
-            overflow: hidden;
-        }
-        
-        .header::before {
-            content: '';
-            position: absolute;
-            top: -50%;
-            left: -50%;
-            width: 200%;
-            height: 200%;
-            background: radial-gradient(circle, rgba(255,255,255,0.1) 0%, transparent 70%);
-            animation: rotate 20s linear infinite;
-        }
-        
-        @keyframes rotate {
-            0% { transform: rotate(0deg); }
-            100% { transform: rotate(360deg); }
         }
         
         .header h1 {
             font-size: 3em;
             margin-bottom: 10px;
-            position: relative;
-            z-index: 2;
             text-shadow: 2px 2px 4px rgba(0,0,0,0.3);
         }
         
         .header p {
             font-size: 1.2em;
             opacity: 0.9;
-            position: relative;
-            z-index: 2;
         }
         
         .main-content {
@@ -85,29 +64,12 @@
             text-align: center;
             border: 2px solid #dee2e6;
             transition: all 0.3s ease;
-            position: relative;
-            overflow: hidden;
-        }
-        
-        .stat-card::before {
-            content: '';
-            position: absolute;
-            top: 0;
-            left: -100%;
-            width: 100%;
-            height: 100%;
-            background: linear-gradient(90deg, transparent, rgba(255,255,255,0.4), transparent);
-            transition: all 0.5s ease;
         }
         
         .stat-card:hover {
             transform: translateY(-5px);
             box-shadow: 0 10px 30px rgba(0,0,0,0.1);
             border-color: #007bff;
-        }
-        
-        .stat-card:hover::before {
-            left: 100%;
         }
         
         .stat-number {
@@ -137,29 +99,12 @@
             overflow: hidden;
             transition: all 0.3s ease;
             border: 2px solid transparent;
-            position: relative;
-        }
-        
-        .space-card::before {
-            content: '';
-            position: absolute;
-            top: 0;
-            left: 0;
-            right: 0;
-            height: 5px;
-            background: linear-gradient(90deg, #007bff, #28a745, #ffc107, #dc3545);
-            transform: scaleX(0);
-            transition: transform 0.3s ease;
         }
         
         .space-card:hover {
             transform: translateY(-8px);
             box-shadow: 0 15px 40px rgba(0,0,0,0.12);
             border-color: #007bff;
-        }
-        
-        .space-card:hover::before {
-            transform: scaleX(1);
         }
         
         .space-header {
@@ -233,26 +178,7 @@
             transition: all 0.3s ease;
             cursor: pointer;
             font-size: 0.9em;
-            position: relative;
-            overflow: hidden;
-        }
-        
-        .btn::before {
-            content: '';
-            position: absolute;
-            top: 50%;
-            left: 50%;
-            width: 0;
-            height: 0;
-            background: rgba(255,255,255,0.3);
-            border-radius: 50%;
-            transform: translate(-50%, -50%);
-            transition: all 0.3s ease;
-        }
-        
-        .btn:hover::before {
-            width: 300px;
-            height: 300px;
+            display: inline-block;
         }
         
         .btn-primary {
@@ -318,6 +244,195 @@
             color: white;
         }
         
+        /* Modal styles */
+        .modal {
+            display: none;
+            position: fixed;
+            z-index: 1000;
+            left: 0;
+            top: 0;
+            width: 100%;
+            height: 100%;
+            background-color: rgba(0,0,0,0.5);
+        }
+        
+        .modal-content {
+            background-color: white;
+            margin: 2% auto;
+            padding: 0;
+            border-radius: 15px;
+            width: 95%;
+            max-width: 1000px;
+            max-height: 90vh;
+            overflow-y: auto;
+            box-shadow: 0 20px 60px rgba(0,0,0,0.3);
+        }
+        
+        .modal-header {
+            background: linear-gradient(135deg, #2c3e50, #34495e);
+            color: white;
+            padding: 20px 30px;
+            border-radius: 15px 15px 0 0;
+            position: relative;
+        }
+        
+        .close {
+            color: white;
+            float: right;
+            font-size: 28px;
+            font-weight: bold;
+            cursor: pointer;
+            position: absolute;
+            right: 20px;
+            top: 15px;
+        }
+        
+        .close:hover {
+            opacity: 0.7;
+        }
+        
+        .modal-body {
+            padding: 30px;
+        }
+        
+        .input-section {
+            background: #f8f9fa;
+            padding: 25px;
+            border-radius: 15px;
+            margin-bottom: 30px;
+            border: 2px solid #dee2e6;
+        }
+        
+        .input-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 20px;
+            margin-bottom: 20px;
+        }
+        
+        .input-group {
+            display: flex;
+            flex-direction: column;
+        }
+        
+        .input-group label {
+            font-weight: bold;
+            margin-bottom: 8px;
+            color: #2c3e50;
+        }
+        
+        .input-group input, .input-group textarea {
+            padding: 12px;
+            border: 2px solid #dee2e6;
+            border-radius: 8px;
+            font-size: 16px;
+            transition: border-color 0.3s;
+        }
+        
+        .input-group input:focus, .input-group textarea:focus {
+            outline: none;
+            border-color: #007bff;
+            box-shadow: 0 0 0 3px rgba(0,123,255,0.1);
+        }
+        
+        .add-btn {
+            background: linear-gradient(135deg, #28a745, #20c997);
+            color: white;
+            border: none;
+            padding: 15px 30px;
+            border-radius: 10px;
+            font-size: 1.1em;
+            font-weight: bold;
+            cursor: pointer;
+            transition: all 0.3s;
+            width: 100%;
+        }
+        
+        .add-btn:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 8px 20px rgba(40,167,69,0.3);
+        }
+        
+        .records-table {
+            width: 100%;
+            border-collapse: collapse;
+            background: white;
+            border-radius: 10px;
+            overflow: hidden;
+            box-shadow: 0 5px 15px rgba(0,0,0,0.08);
+        }
+        
+        .records-table th {
+            background: linear-gradient(135deg, #007bff, #0056b3);
+            color: white;
+            padding: 15px;
+            text-align: center;
+            font-weight: bold;
+        }
+        
+        .records-table td {
+            padding: 12px;
+            text-align: center;
+            border-bottom: 1px solid #dee2e6;
+        }
+        
+        .records-table tr:hover {
+            background: #f8f9fa;
+        }
+        
+        .temp-good {
+            background: #d4edda;
+            color: #155724;
+            font-weight: bold;
+            border-radius: 5px;
+            padding: 5px 10px;
+        }
+        
+        .temp-warning {
+            background: #fff3cd;
+            color: #856404;
+            font-weight: bold;
+            border-radius: 5px;
+            padding: 5px 10px;
+        }
+        
+        .temp-danger {
+            background: #f8d7da;
+            color: #721c24;
+            font-weight: bold;
+            border-radius: 5px;
+            padding: 5px 10px;
+        }
+        
+        .no-records {
+            text-align: center;
+            color: #6c757d;
+            font-style: italic;
+            padding: 40px;
+        }
+        
+        /* Print styles */
+        @media print {
+            body { 
+                background: white !important; 
+                padding: 0 !important; 
+            }
+            .container { 
+                box-shadow: none !important; 
+                border-radius: 0 !important; 
+                max-width: 100% !important;
+            }
+            .header { 
+                background: #2c3e50 !important; 
+                -webkit-print-color-adjust: exact !important;
+                print-color-adjust: exact !important;
+            }
+            .modal { display: none !important; }
+            .btn, .input-section, .management-section { display: none !important; }
+            .space-body { display: none !important; }
+            .space-card { break-inside: avoid !important; margin-bottom: 20px !important; }
+        }
+        
         /* Responsive design */
         @media (max-width: 768px) {
             .container {
@@ -341,32 +456,9 @@
                 grid-template-columns: 1fr;
             }
             
-            .space-card {
-                margin-bottom: 20px;
-            }
-        }
-        
-        /* Animații pentru încărcare */
-        .space-card {
-            opacity: 0;
-            transform: translateY(20px);
-            animation: fadeInUp 0.6s ease forwards;
-        }
-        
-        .space-card:nth-child(1) { animation-delay: 0.1s; }
-        .space-card:nth-child(2) { animation-delay: 0.2s; }
-        .space-card:nth-child(3) { animation-delay: 0.3s; }
-        .space-card:nth-child(4) { animation-delay: 0.4s; }
-        .space-card:nth-child(5) { animation-delay: 0.5s; }
-        .space-card:nth-child(6) { animation-delay: 0.6s; }
-        .space-card:nth-child(7) { animation-delay: 0.7s; }
-        .space-card:nth-child(8) { animation-delay: 0.8s; }
-        .space-card:nth-child(9) { animation-delay: 0.9s; }
-        
-        @keyframes fadeInUp {
-            to {
-                opacity: 1;
-                transform: translateY(0);
+            .modal-content {
+                width: 98%;
+                margin: 1% auto;
             }
         }
     </style>
@@ -420,8 +512,8 @@
                             </div>
                         </div>
                         <div class="action-buttons">
-                            <a href="#" class="btn btn-primary" onclick="openMonitoringPage('masa-rece-salate')">📊 Monitorizare</a>
-                            <a href="#" class="btn btn-success" onclick="printReport('masa-rece-salate')">🖨️ Print</a>
+                            <button class="btn btn-primary" onclick="openMonitoring('masa-rece-salate')">📊 Monitorizare</button>
+                            <button class="btn btn-success" onclick="printReport('masa-rece-salate')">🖨️ Print</button>
                         </div>
                     </div>
                 </div>
@@ -445,8 +537,8 @@
                             </div>
                         </div>
                         <div class="action-buttons">
-                            <a href="#" class="btn btn-primary" onclick="openMonitoringPage('masa-rece-sosuri')">📊 Monitorizare</a>
-                            <a href="#" class="btn btn-success" onclick="printReport('masa-rece-sosuri')">🖨️ Print</a>
+                            <button class="btn btn-primary" onclick="openMonitoring('masa-rece-sosuri')">📊 Monitorizare</button>
+                            <button class="btn btn-success" onclick="printReport('masa-rece-sosuri')">🖨️ Print</button>
                         </div>
                     </div>
                 </div>
@@ -470,8 +562,8 @@
                             </div>
                         </div>
                         <div class="action-buttons">
-                            <a href="#" class="btn btn-primary" onclick="openMonitoringPage('congelator-produse')">📊 Monitorizare</a>
-                            <a href="#" class="btn btn-success" onclick="printReport('congelator-produse')">🖨️ Print</a>
+                            <button class="btn btn-primary" onclick="openMonitoring('congelator-produse')">📊 Monitorizare</button>
+                            <button class="btn btn-success" onclick="printReport('congelator-produse')">🖨️ Print</button>
                         </div>
                     </div>
                 </div>
@@ -495,8 +587,8 @@
                             </div>
                         </div>
                         <div class="action-buttons">
-                            <a href="#" class="btn btn-primary" onclick="openMonitoringPage('frigider-ciorbe')">📊 Monitorizare</a>
-                            <a href="#" class="btn btn-success" onclick="printReport('frigider-ciorbe')">🖨️ Print</a>
+                            <button class="btn btn-primary" onclick="openMonitoring('frigider-ciorbe')">📊 Monitorizare</button>
+                            <button class="btn btn-success" onclick="printReport('frigider-ciorbe')">🖨️ Print</button>
                         </div>
                     </div>
                 </div>
@@ -520,8 +612,8 @@
                             </div>
                         </div>
                         <div class="action-buttons">
-                            <a href="#" class="btn btn-primary" onclick="openMonitoringPage('frigider-legume')">📊 Monitorizare</a>
-                            <a href="#" class="btn btn-success" onclick="printReport('frigider-legume')">🖨️ Print</a>
+                            <button class="btn btn-primary" onclick="openMonitoring('frigider-legume')">📊 Monitorizare</button>
+                            <button class="btn btn-success" onclick="printReport('frigider-legume')">🖨️ Print</button>
                         </div>
                     </div>
                 </div>
@@ -545,8 +637,8 @@
                             </div>
                         </div>
                         <div class="action-buttons">
-                            <a href="#" class="btn btn-primary" onclick="openMonitoringPage('frigider-sosuri-preparat')">📊 Monitorizare</a>
-                            <a href="#" class="btn btn-success" onclick="printReport('frigider-sosuri-preparat')">🖨️ Print</a>
+                            <button class="btn btn-primary" onclick="openMonitoring('frigider-sosuri-preparat')">📊 Monitorizare</button>
+                            <button class="btn btn-success" onclick="printReport('frigider-sosuri-preparat')">🖨️ Print</button>
                         </div>
                     </div>
                 </div>
@@ -570,8 +662,8 @@
                             </div>
                         </div>
                         <div class="action-buttons">
-                            <a href="#" class="btn btn-primary" onclick="openMonitoringPage('frigider-carne')">📊 Monitorizare</a>
-                            <a href="#" class="btn btn-success" onclick="printReport('frigider-carne')">🖨️ Print</a>
+                            <button class="btn btn-primary" onclick="openMonitoring('frigider-carne')">📊 Monitorizare</button>
+                            <button class="btn btn-success" onclick="printReport('frigider-carne')">🖨️ Print</button>
                         </div>
                     </div>
                 </div>
@@ -595,8 +687,8 @@
                             </div>
                         </div>
                         <div class="action-buttons">
-                            <a href="#" class="btn btn-primary" onclick="openMonitoringPage('frigider-lactate')">📊 Monitorizare</a>
-                            <a href="#" class="btn btn-success" onclick="printReport('frigider-lactate')">🖨️ Print</a>
+                            <button class="btn btn-primary" onclick="openMonitoring('frigider-lactate')">📊 Monitorizare</button>
+                            <button class="btn btn-success" onclick="printReport('frigider-lactate')">🖨️ Print</button>
                         </div>
                     </div>
                 </div>
@@ -620,8 +712,8 @@
                             </div>
                         </div>
                         <div class="action-buttons">
-                            <a href="#" class="btn btn-primary" onclick="openMonitoringPage('frigider-rezerva')">📊 Monitorizare</a>
-                            <a href="#" class="btn btn-success" onclick="printReport('frigider-rezerva')">🖨️ Print</a>
+                            <button class="btn btn-primary" onclick="openMonitoring('frigider-rezerva')">📊 Monitorizare</button>
+                            <button class="btn btn-success" onclick="printReport('frigider-rezerva')">🖨️ Print</button>
                         </div>
                     </div>
                 </div>
@@ -631,25 +723,76 @@
             <div class="management-section">
                 <div class="management-title">📋 Management și Rapoarte</div>
                 <div class="management-buttons">
-                    <a href="#" class="btn btn-info btn-large" onclick="viewAllRecords()">
+                    <button class="btn btn-info btn-large" onclick="showAllRecords()">
                         📊 Toate Înregistrările
-                    </a>
-                    <a href="#" class="btn btn-warning btn-large" onclick="viewAlerts()">
+                    </button>
+                    <button class="btn btn-warning btn-large" onclick="showAlerts()">
                         ⚠️ Alerte Temperature
-                    </a>
-                    <a href="#" class="btn btn-success btn-large" onclick="exportData()">
+                    </button>
+                    <button class="btn btn-success btn-large" onclick="exportData()">
                         📤 Export Date
-                    </a>
-                    <a href="#" class="btn btn-danger btn-large" onclick="clearOldData()">
-                        🗑️ Curățare Date Vechi
-                    </a>
+                    </button>
+                    <button class="btn btn-danger btn-large" onclick="clearData()">
+                        🗑️ Curățare Date
+                    </button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Modal pentru Monitorizare -->
+    <div id="monitoringModal" class="modal">
+        <div class="modal-content">
+            <div class="modal-header">
+                <span class="close" onclick="closeModal()">&times;</span>
+                <h2 id="modalTitle">Monitorizare Spațiu Frigorific</h2>
+                <div id="modalTempRange"></div>
+            </div>
+            <div class="modal-body">
+                <!-- Input Section -->
+                <div class="input-section">
+                    <h3 style="margin-bottom: 20px; color: #2c3e50;">📝 Adaugă Înregistrare Nouă</h3>
+                    <form id="temperatureForm">
+                        <div class="input-grid">
+                            <div class="input-group">
+                                <label for="date">Data:</label>
+                                <input type="date" id="date" required>
+                            </div>
+                            <div class="input-group">
+                                <label for="time">Ora:</label>
+                                <input type="time" id="time" required>
+                            </div>
+                            <div class="input-group">
+                                <label for="temperature">Temperatura (°C):</label>
+                                <input type="number" id="temperature" step="0.1" required placeholder="Ex: 3.5">
+                            </div>
+                            <div class="input-group">
+                                <label for="signature">Semnătura:</label>
+                                <input type="text" id="signature" required placeholder="Ex: M.P.">
+                            </div>
+                        </div>
+                        <div class="input-group" style="margin-top: 15px;">
+                            <label for="observations">Observații:</label>
+                            <textarea id="observations" rows="3" placeholder="Observații opționale..."></textarea>
+                        </div>
+                        <button type="submit" class="add-btn">
+                            ➕ Adaugă Înregistrare
+                        </button>
+                    </form>
+                </div>
+                
+                <!-- Records Section -->
+                <div id="recordsContainer">
+                    <div class="no-records">
+                        Nu există înregistrări pentru acest spațiu frigorific.
+                    </div>
                 </div>
             </div>
         </div>
     </div>
 
     <script>
-        // Database simulation using localStorage
+        // Database class for localStorage management
         class HACCPDatabase {
             constructor() {
                 this.dbName = 'haccp_temperatures';
@@ -663,11 +806,22 @@
             }
             
             getData() {
-                return JSON.parse(localStorage.getItem(this.dbName) || '{}');
+                try {
+                    return JSON.parse(localStorage.getItem(this.dbName) || '{}');
+                } catch (e) {
+                    console.error('Error parsing data:', e);
+                    return {};
+                }
             }
             
             saveData(data) {
-                localStorage.setItem(this.dbName, JSON.stringify(data));
+                try {
+                    localStorage.setItem(this.dbName, JSON.stringify(data));
+                    return true;
+                } catch (e) {
+                    console.error('Error saving data:', e);
+                    return false;
+                }
             }
             
             addRecord(spaceId, record) {
@@ -699,8 +853,11 @@
                 const records = this.getRecords(spaceId);
                 if (records.length === 0) return null;
                 
-                const sum = records.reduce((acc, record) => acc + parseFloat(record.temperature), 0);
-                return (sum / records.length).toFixed(1);
+                const validTemps = records.map(r => parseFloat(r.temperature)).filter(t => !isNaN(t));
+                if (validTemps.length === 0) return null;
+                
+                const sum = validTemps.reduce((acc, temp) => acc + temp, 0);
+                return (sum / validTemps.length).toFixed(1);
             }
             
             getTodayRecordsCount() {
@@ -725,11 +882,17 @@
                 });
                 return count;
             }
+            
+            clearAllData() {
+                localStorage.removeItem(this.dbName);
+                this.init();
+            }
         }
-        
+
         // Initialize database
         const db = new HACCPDatabase();
-        
+        let currentSpaceId = null;
+
         // Space configurations
         const spaces = {
             'masa-rece-salate': {
@@ -796,404 +959,41 @@
                 icon: '📦'
             }
         };
-        
-        // Functions for navigation and actions
-        function openMonitoringPage(spaceId) {
-            // Create and open monitoring page for specific space
+
+        // Main functions
+        function openMonitoring(spaceId) {
+            currentSpaceId = spaceId;
             const space = spaces[spaceId];
             if (!space) return;
-            
-            const monitoringPage = `
-<!DOCTYPE html>
-<html lang="ro">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Monitorizare ${space.name} - HACCP</title>
-    <style>
-        * {
-            margin: 0;
-            padding: 0;
-            box-sizing: border-box;
-        }
-        
-        body {
-            font-family: Arial, sans-serif;
-            background: #f8f9fa;
-            padding: 20px;
-        }
-        
-        .container {
-            max-width: 1200px;
-            margin: 0 auto;
-            background: white;
-            border-radius: 15px;
-            box-shadow: 0 10px 30px rgba(0,0,0,0.1);
-            overflow: hidden;
-        }
-        
-        .header {
-            background: linear-gradient(135deg, #2c3e50, #34495e);
-            color: white;
-            padding: 30px;
-            text-align: center;
-        }
-        
-        .header h1 {
-            font-size: 2.5em;
-            margin-bottom: 10px;
-        }
-        
-        .temp-info {
-            background: rgba(255,255,255,0.1);
-            padding: 15px;
-            border-radius: 10px;
-            margin-top: 15px;
-        }
-        
-        .content {
-            padding: 30px;
-        }
-        
-        .input-section {
-            background: #f8f9fa;
-            padding: 25px;
-            border-radius: 15px;
-            margin-bottom: 30px;
-            border: 2px solid #dee2e6;
-        }
-        
-        .input-grid {
-            display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
-            gap: 20px;
-            margin-bottom: 20px;
-        }
-        
-        .input-group {
-            display: flex;
-            flex-direction: column;
-        }
-        
-        .input-group label {
-            font-weight: bold;
-            margin-bottom: 8px;
-            color: #2c3e50;
-        }
-        
-        .input-group input, .input-group textarea {
-            padding: 12px;
-            border: 2px solid #dee2e6;
-            border-radius: 8px;
-            font-size: 16px;
-            transition: border-color 0.3s;
-        }
-        
-        .input-group input:focus, .input-group textarea:focus {
-            outline: none;
-            border-color: #007bff;
-            box-shadow: 0 0 0 3px rgba(0,123,255,0.1);
-        }
-        
-        .temperature-input {
-            position: relative;
-        }
-        
-        .temperature-input input {
-            text-align: center;
-            font-size: 1.2em;
-            font-weight: bold;
-        }
-        
-        .add-btn {
-            background: linear-gradient(135deg, #28a745, #20c997);
-            color: white;
-            border: none;
-            padding: 15px 30px;
-            border-radius: 10px;
-            font-size: 1.1em;
-            font-weight: bold;
-            cursor: pointer;
-            transition: all 0.3s;
-            width: 100%;
-        }
-        
-        .add-btn:hover {
-            transform: translateY(-2px);
-            box-shadow: 0 8px 20px rgba(40,167,69,0.3);
-        }
-        
-        .records-section {
-            margin-top: 30px;
-        }
-        
-        .records-header {
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            margin-bottom: 20px;
-        }
-        
-        .records-title {
-            font-size: 1.5em;
-            font-weight: bold;
-            color: #2c3e50;
-        }
-        
-        .back-btn {
-            background: linear-gradient(135deg, #6c757d, #5a6268);
-            color: white;
-            border: none;
-            padding: 10px 20px;
-            border-radius: 8px;
-            text-decoration: none;
-            font-weight: bold;
-            transition: all 0.3s;
-        }
-        
-        .back-btn:hover {
-            transform: translateY(-2px);
-            box-shadow: 0 5px 15px rgba(108,117,125,0.3);
-        }
-        
-        .records-table {
-            width: 100%;
-            border-collapse: collapse;
-            background: white;
-            border-radius: 10px;
-            overflow: hidden;
-            box-shadow: 0 5px 15px rgba(0,0,0,0.08);
-        }
-        
-        .records-table th {
-            background: linear-gradient(135deg, #007bff, #0056b3);
-            color: white;
-            padding: 15px;
-            text-align: center;
-            font-weight: bold;
-        }
-        
-        .records-table td {
-            padding: 12px;
-            text-align: center;
-            border-bottom: 1px solid #dee2e6;
-        }
-        
-        .records-table tr:hover {
-            background: #f8f9fa;
-        }
-        
-        .temp-good {
-            background: #d4edda;
-            color: #155724;
-            font-weight: bold;
-            border-radius: 5px;
-            padding: 5px 10px;
-        }
-        
-        .temp-warning {
-            background: #fff3cd;
-            color: #856404;
-            font-weight: bold;
-            border-radius: 5px;
-            padding: 5px 10px;
-        }
-        
-        .temp-danger {
-            background: #f8d7da;
-            color: #721c24;
-            font-weight: bold;
-            border-radius: 5px;
-            padding: 5px 10px;
-        }
-        
-        .stats-grid {
-            display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
-            gap: 20px;
-            margin-bottom: 30px;
-        }
-        
-        .stat-card {
-            background: linear-gradient(135deg, #f8f9fa, #e9ecef);
-            padding: 20px;
-            border-radius: 10px;
-            text-align: center;
-            border: 2px solid #dee2e6;
-        }
-        
-        .stat-number {
-            font-size: 2em;
-            font-weight: bold;
-            color: #007bff;
-            margin-bottom: 5px;
-        }
-        
-        .stat-label {
-            color: #6c757d;
-            font-weight: 500;
-        }
-        
-        .no-records {
-            text-align: center;
-            color: #6c757d;
-            font-style: italic;
-            padding: 40px;
-        }
-        
-        @media print {
-            body { background: white; padding: 0; }
-            .container { box-shadow: none; border-radius: 0; }
-            .input-section, .back-btn { display: none; }
-            .header { background: #2c3e50 !important; }
-        }
-        
-        @media (max-width: 768px) {
-            .input-grid { grid-template-columns: 1fr; }
-            .records-header { flex-direction: column; gap: 15px; }
-            .stats-grid { grid-template-columns: 1fr; }
-        }
-    </style>
-</head>
-<body>
-    <div class="container">
-        <div class="header">
-            <h1>${space.icon} ${space.name}</h1>
-            <div class="temp-info">
-                <strong>Temperatură Țintă: ${space.tempRange}</strong>
-            </div>
-        </div>
-        
-        <div class="content">
-            <!-- Statistics -->
-            <div class="stats-grid">
-                <div class="stat-card">
-                    <div class="stat-number" id="totalCount">0</div>
-                    <div class="stat-label">Înregistrări Totale</div>
-                </div>
-                <div class="stat-card">
-                    <div class="stat-number" id="avgTemp">-°C</div>
-                    <div class="stat-label">Temperatura Medie</div>
-                </div>
-                <div class="stat-card">
-                    <div class="stat-number" id="todayCount">0</div>
-                    <div class="stat-label">Înregistrări Astăzi</div>
-                </div>
-                <div class="stat-card">
-                    <div class="stat-number" id="alertCount">0</div>
-                    <div class="stat-label">Alerte</div>
-                </div>
-            </div>
-            
-            <!-- Input Section -->
-            <div class="input-section">
-                <h3 style="margin-bottom: 20px; color: #2c3e50;">📝 Adaugă Înregistrare Nouă</h3>
-                <form id="temperatureForm">
-                    <div class="input-grid">
-                        <div class="input-group">
-                            <label for="date">Data:</label>
-                            <input type="date" id="date" required>
-                        </div>
-                        <div class="input-group">
-                            <label for="time">Ora:</label>
-                            <input type="time" id="time" required>
-                        </div>
-                        <div class="input-group temperature-input">
-                            <label for="temperature">Temperatura (°C):</label>
-                            <input type="number" id="temperature" step="0.1" required placeholder="Ex: 3.5">
-                        </div>
-                        <div class="input-group">
-                            <label for="signature">Semnătura:</label>
-                            <input type="text" id="signature" required placeholder="Ex: M.P.">
-                        </div>
-                    </div>
-                    <div class="input-group" style="margin-top: 15px;">
-                        <label for="observations">Observații:</label>
-                        <textarea id="observations" rows="3" placeholder="Observații opționale..."></textarea>
-                    </div>
-                    <button type="submit" class="add-btn">
-                        ➕ Adaugă Înregistrare
-                    </button>
-                </form>
-            </div>
-            
-            <!-- Records Section -->
-            <div class="records-section">
-                <div class="records-header">
-                    <div class="records-title">📊 Istoric Înregistrări</div>
-                    <a href="#" onclick="window.close(); return false;" class="back-btn">← Înapoi la Dashboard</a>
-                </div>
-                
-                <div id="recordsContainer">
-                    <div class="no-records">
-                        Nu există înregistrări pentru acest spațiu frigorific.
-                    </div>
-                </div>
-            </div>
-        </div>
-    </div>
 
-    <script>
-        const spaceId = '${spaceId}';
-        const space = ${JSON.stringify(space)};
-        
-        // Database functions (simplified for standalone page)
-        function getRecords() {
-            const data = JSON.parse(localStorage.getItem('haccp_temperatures') || '{}');
-            return data[spaceId] || [];
+            // Update modal content
+            document.getElementById('modalTitle').innerHTML = `${space.icon} ${space.name}`;
+            document.getElementById('modalTempRange').innerHTML = `<strong>Temperatură Țintă: ${space.tempRange}</strong>`;
+
+            // Set current date and time
+            const now = new Date();
+            document.getElementById('date').value = now.toISOString().split('T')[0];
+            document.getElementById('time').value = now.toTimeString().split(':').slice(0,2).join(':');
+
+            // Clear form
+            document.getElementById('temperature').value = '';
+            document.getElementById('observations').value = '';
+            document.getElementById('signature').value = '';
+
+            // Load records
+            renderRecords(spaceId);
+
+            // Show modal
+            document.getElementById('monitoringModal').style.display = 'block';
         }
-        
-        function saveRecord(record) {
-            const data = JSON.parse(localStorage.getItem('haccp_temperatures') || '{}');
-            if (!data[spaceId]) data[spaceId] = [];
-            
-            record.id = Date.now();
-            record.timestamp = new Date().toISOString();
-            data[spaceId].push(record);
-            
-            localStorage.setItem('haccp_temperatures', JSON.stringify(data));
-            return record.id;
+
+        function closeModal() {
+            document.getElementById('monitoringModal').style.display = 'none';
+            currentSpaceId = null;
         }
-        
-        function isTemperatureInRange(temp) {
-            return temp >= space.minTemp && temp <= space.maxTemp;
-        }
-        
-        function getTemperatureClass(temp) {
-            if (isTemperatureInRange(temp)) return 'temp-good';
-            if (Math.abs(temp - space.maxTemp) <= 1 || Math.abs(temp - space.minTemp) <= 1) return 'temp-warning';
-            return 'temp-danger';
-        }
-        
-        function updateStatistics() {
-            const records = getRecords();
-            const today = new Date().toDateString();
-            
-            // Total count
-            document.getElementById('totalCount').textContent = records.length;
-            
-            // Average temperature
-            if (records.length > 0) {
-                const sum = records.reduce((acc, record) => acc + parseFloat(record.temperature), 0);
-                const avg = (sum / records.length).toFixed(1);
-                document.getElementById('avgTemp').textContent = avg + '°C';
-            }
-            
-            // Today's count
-            const todayRecords = records.filter(record => 
-                new Date(record.timestamp).toDateString() === today
-            );
-            document.getElementById('todayCount').textContent = todayRecords.length;
-            
-            // Alerts count
-            const alerts = records.filter(record => 
-                !isTemperatureInRange(parseFloat(record.temperature))
-            );
-            document.getElementById('alertCount').textContent = alerts.length;
-        }
-        
-        function renderRecords() {
-            const records = getRecords().reverse(); // Most recent first
+
+        function renderRecords(spaceId) {
+            const records = db.getRecords(spaceId).reverse(); // Most recent first
             const container = document.getElementById('recordsContainer');
             
             if (records.length === 0) {
@@ -1201,7 +1001,8 @@
                 return;
             }
             
-            const table = \`
+            const space = spaces[spaceId];
+            const table = `
                 <table class="records-table">
                     <thead>
                         <tr>
@@ -1213,291 +1014,71 @@
                         </tr>
                     </thead>
                     <tbody>
-                        \${records.map(record => {
-                            const date = new Date(record.timestamp);
-                            const tempClass = getTemperatureClass(parseFloat(record.temperature));
+                        ${records.map(record => {
+                            const temp = parseFloat(record.temperature);
+                            const tempClass = getTempClass(temp, space);
                             
-                            return \`
+                            return `
                                 <tr>
-                                    <td>\${record.date}</td>
-                                    <td>\${record.time}</td>
-                                    <td><span class="\${tempClass}">\${record.temperature}°C</span></td>
-                                    <td>\${record.observations || '-'}</td>
-                                    <td>\${record.signature}</td>
+                                    <td>${record.date}</td>
+                                    <td>${record.time}</td>
+                                    <td><span class="${tempClass}">${record.temperature}°C</span></td>
+                                    <td>${record.observations || '-'}</td>
+                                    <td>${record.signature}</td>
                                 </tr>
-                            \`;
+                            `;
                         }).join('')}
                     </tbody>
                 </table>
-            \`;
+            `;
             
             container.innerHTML = table;
         }
-        
-        // Initialize page
-        document.addEventListener('DOMContentLoaded', function() {
-            // Set current date and time
-            const now = new Date();
-            document.getElementById('date').value = now.toISOString().split('T')[0];
-            document.getElementById('time').value = now.toTimeString().split(':').slice(0,2).join(':');
-            
-            // Load and display records
-            updateStatistics();
-            renderRecords();
-        });
-        
-        // Form submission
-        document.getElementById('temperatureForm').addEventListener('submit', function(e) {
-            e.preventDefault();
-            
-            const record = {
-                date: document.getElementById('date').value,
-                time: document.getElementById('time').value,
-                temperature: document.getElementById('temperature').value,
-                observations: document.getElementById('observations').value,
-                signature: document.getElementById('signature').value
-            };
-            
-            saveRecord(record);
-            
-            // Clear form
-            document.getElementById('observations').value = '';
-            document.getElementById('signature').value = '';
-            
-            // Update current time
-            const now = new Date();
-            document.getElementById('time').value = now.toTimeString().split(':').slice(0,2).join(':');
-            
-            // Refresh display
-            updateStatistics();
-            renderRecords();
-            
-            // Show success message
-            alert('✅ Înregistrarea a fost salvată cu succes!');
-        });
-    </script>
-</body>
-</html>`;
-            
-            // Open in new window
-            const newWindow = window.open('', '_blank');
-            newWindow.document.write(monitoringPage);
-            newWindow.document.close();
+
+        function getTempClass(temp, space) {
+            if (temp >= space.minTemp && temp <= space.maxTemp) return 'temp-good';
+            if (Math.abs(temp - space.maxTemp) <= 1 || Math.abs(temp - space.minTemp) <= 1) return 'temp-warning';
+            return 'temp-danger';
         }
-        
+
         function printReport(spaceId) {
-            // Generate printable report
             const space = spaces[spaceId];
             const records = db.getRecords(spaceId);
             
-            const printPage = `
+            const printWindow = window.open('', '_blank');
+            printWindow.document.write(`
 <!DOCTYPE html>
 <html lang="ro">
 <head>
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Raport ${space.name} - HACCP</title>
     <style>
-        @page {
-            size: A4 portrait;
-            margin: 2cm;
-        }
-        
-        * {
-            margin: 0;
-            padding: 0;
-            box-sizing: border-box;
-        }
-        
-        body {
-            font-family: Arial, sans-serif;
-            font-size: 12px;
-            line-height: 1.4;
-            color: #333;
-        }
-        
-        .header {
-            text-align: center;
-            margin-bottom: 30px;
-            padding-bottom: 20px;
-            border-bottom: 3px solid #2c3e50;
-        }
-        
-        .header h1 {
-            font-size: 24px;
-            margin-bottom: 10px;
-            color: #2c3e50;
-        }
-        
-        .header h2 {
-            font-size: 18px;
-            margin-bottom: 5px;
-            color: #007bff;
-        }
-        
-        .temp-info {
-            background: #f8f9fa;
-            padding: 10px;
-            border-radius: 5px;
-            margin: 15px 0;
-            text-align: center;
-            font-weight: bold;
-            border: 2px solid #dee2e6;
-        }
-        
-        .meta-info {
-            display: grid;
-            grid-template-columns: 1fr 1fr;
-            gap: 20px;
-            margin-bottom: 25px;
-        }
-        
-        .meta-card {
-            background: #f8f9fa;
-            padding: 15px;
-            border-radius: 5px;
-            border: 1px solid #dee2e6;
-        }
-        
-        .meta-card h4 {
-            color: #007bff;
-            margin-bottom: 10px;
-        }
-        
-        .table-container {
-            margin-bottom: 30px;
-        }
-        
-        .records-table {
-            width: 100%;
-            border-collapse: collapse;
-            margin-bottom: 20px;
-        }
-        
-        .records-table th {
-            background: #2c3e50;
-            color: white;
-            padding: 12px 8px;
-            text-align: center;
-            font-weight: bold;
-            font-size: 11px;
-        }
-        
-        .records-table td {
-            padding: 10px 8px;
-            text-align: center;
-            border: 1px solid #dee2e6;
-            font-size: 11px;
-        }
-        
-        .records-table tr:nth-child(even) {
-            background: #f8f9fa;
-        }
-        
-        .temp-good {
-            background: #d4edda;
-            color: #155724;
-            font-weight: bold;
-            border-radius: 3px;
-            padding: 2px 6px;
-        }
-        
-        .temp-warning {
-            background: #fff3cd;
-            color: #856404;
-            font-weight: bold;
-            border-radius: 3px;
-            padding: 2px 6px;
-        }
-        
-        .temp-danger {
-            background: #f8d7da;
-            color: #721c24;
-            font-weight: bold;
-            border-radius: 3px;
-            padding: 2px 6px;
-        }
-        
-        .summary {
-            margin-top: 30px;
-            padding: 20px;
-            background: #f8f9fa;
-            border-radius: 5px;
-            border: 2px solid #dee2e6;
-        }
-        
-        .summary h3 {
-            color: #2c3e50;
-            margin-bottom: 15px;
-        }
-        
-        .summary-grid {
-            display: grid;
-            grid-template-columns: repeat(4, 1fr);
-            gap: 15px;
-        }
-        
-        .summary-item {
-            text-align: center;
-            padding: 10px;
-            background: white;
-            border-radius: 5px;
-            border: 1px solid #dee2e6;
-        }
-        
-        .summary-number {
-            font-size: 18px;
-            font-weight: bold;
-            color: #007bff;
-            margin-bottom: 5px;
-        }
-        
-        .summary-label {
-            font-size: 10px;
-            color: #6c757d;
-        }
-        
-        .footer {
-            margin-top: 40px;
-            padding-top: 20px;
-            border-top: 2px solid #dee2e6;
-            text-align: center;
-            font-size: 10px;
-            color: #6c757d;
-        }
-        
-        .signature-section {
-            margin-top: 40px;
-            display: grid;
-            grid-template-columns: 1fr 1fr;
-            gap: 40px;
-        }
-        
-        .signature-box {
-            text-align: center;
-            padding: 20px;
-            border: 1px solid #dee2e6;
-            border-radius: 5px;
-        }
-        
-        .signature-line {
-            border-bottom: 1px solid #333;
-            margin: 20px 0 10px 0;
-            height: 40px;
-        }
-        
-        @media print {
-            body { print-color-adjust: exact; }
-        }
+        @page { size: A4 portrait; margin: 2cm; }
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+        body { font-family: Arial, sans-serif; font-size: 12px; line-height: 1.4; color: #333; }
+        .header { text-align: center; margin-bottom: 30px; padding-bottom: 20px; border-bottom: 3px solid #2c3e50; }
+        .header h1 { font-size: 24px; margin-bottom: 10px; color: #2c3e50; }
+        .header h2 { font-size: 18px; margin-bottom: 5px; color: #007bff; }
+        .temp-info { background: #f8f9fa; padding: 10px; border-radius: 5px; margin: 15px 0; text-align: center; font-weight: bold; border: 2px solid #dee2e6; }
+        .meta-info { display: grid; grid-template-columns: 1fr 1fr; gap: 20px; margin-bottom: 25px; }
+        .meta-card { background: #f8f9fa; padding: 15px; border-radius: 5px; border: 1px solid #dee2e6; }
+        .meta-card h4 { color: #007bff; margin-bottom: 10px; }
+        .records-table { width: 100%; border-collapse: collapse; margin-bottom: 20px; }
+        .records-table th { background: #2c3e50; color: white; padding: 12px 8px; text-align: center; font-weight: bold; font-size: 11px; }
+        .records-table td { padding: 10px 8px; text-align: center; border: 1px solid #dee2e6; font-size: 11px; }
+        .records-table tr:nth-child(even) { background: #f8f9fa; }
+        .temp-good { background: #d4edda; color: #155724; font-weight: bold; border-radius: 3px; padding: 2px 6px; }
+        .temp-warning { background: #fff3cd; color: #856404; font-weight: bold; border-radius: 3px; padding: 2px 6px; }
+        .temp-danger { background: #f8d7da; color: #721c24; font-weight: bold; border-radius: 3px; padding: 2px 6px; }
+        .footer { margin-top: 40px; padding-top: 20px; border-top: 2px solid #dee2e6; text-align: center; font-size: 10px; color: #6c757d; }
+        @media print { body { print-color-adjust: exact; } }
     </style>
 </head>
 <body>
     <div class="header">
         <h1>🌡️ RAPORT HACCP - MONITORIZARE TEMPERATURE</h1>
         <h2>${space.icon} ${space.name}</h2>
-        <div class="temp-info">
-            Temperatură Țintă: ${space.tempRange}
-        </div>
+        <div class="temp-info">Temperatură Țintă: ${space.tempRange}</div>
     </div>
     
     <div class="meta-info">
@@ -1515,83 +1096,37 @@
         </div>
     </div>
     
-    <div class="table-container">
-        ${records.length > 0 ? `
-            <table class="records-table">
-                <thead>
-                    <tr>
-                        <th>Nr.</th>
-                        <th>Data</th>
-                        <th>Ora</th>
-                        <th>Temperatura (°C)</th>
-                        <th>Observații</th>
-                        <th>Semnătura</th>
-                    </tr>
-                </thead>
-                <tbody>
-                    ${records.reverse().map((record, index) => {
-                        const temp = parseFloat(record.temperature);
-                        const tempClass = (temp >= space.minTemp && temp <= space.maxTemp) ? 'temp-good' : 
-                                         (Math.abs(temp - space.maxTemp) <= 1 || Math.abs(temp - space.minTemp) <= 1) ? 'temp-warning' : 'temp-danger';
-                        
-                        return `
-                            <tr>
-                                <td>${index + 1}</td>
-                                <td>${record.date}</td>
-                                <td>${record.time}</td>
-                                <td><span class="${tempClass}">${record.temperature}°C</span></td>
-                                <td>${record.observations || '-'}</td>
-                                <td>${record.signature}</td>
-                            </tr>
-                        `;
-                    }).join('')}
-                </tbody>
-            </table>
-        ` : '<p style="text-align: center; font-style: italic; color: #6c757d; padding: 40px;">Nu există înregistrări pentru acest spațiu frigorific.</p>'}
-    </div>
-    
     ${records.length > 0 ? `
-        <div class="summary">
-            <h3>📈 Sumar Analitic</h3>
-            <div class="summary-grid">
-                <div class="summary-item">
-                    <div class="summary-number">${records.length}</div>
-                    <div class="summary-label">TOTAL ÎNREGISTRĂRI</div>
-                </div>
-                <div class="summary-item">
-                    <div class="summary-number">${db.getAverageTemp(spaceId)}°C</div>
-                    <div class="summary-label">TEMPERATURA MEDIE</div>
-                </div>
-                <div class="summary-item">
-                    <div class="summary-number">${records.filter(r => {
-                        const temp = parseFloat(r.temperature);
-                        return temp >= space.minTemp && temp <= space.maxTemp;
-                    }).length}</div>
-                    <div class="summary-label">TEMP. ÎN INTERVAL</div>
-                </div>
-                <div class="summary-item">
-                    <div class="summary-number">${records.filter(r => {
-                        const temp = parseFloat(r.temperature);
-                        return temp < space.minTemp || temp > space.maxTemp;
-                    }).length}</div>
-                    <div class="summary-label">ALERTE DETECTATE</div>
-                </div>
-            </div>
-        </div>
-    ` : ''}
-    
-    <div class="signature-section">
-        <div class="signature-box">
-            <p><strong>Responsabil Monitorizare</strong></p>
-            <div class="signature-line"></div>
-            <p>Semnătura și data</p>
-        </div>
-        <div class="signature-box">
-            <p><strong>Manager HACCP</strong></p>
-            <div class="signature-line"></div>
-            <p>Semnătura și data</p>
-        </div>
-    </div>
+        <table class="records-table">
+            <thead>
+                <tr>
+                    <th>Nr.</th>
+                    <th>Data</th>
+                    <th>Ora</th>
+                    <th>Temperatura (°C)</th>
+                    <th>Observații</th>
+                    <th>Semnătura</th>
+                </tr>
+            </thead>
+            <tbody>
+                ${records.reverse().map((record, index) => {
+                    const temp = parseFloat(record.temperature);
+                    const tempClass = getTempClass(temp, space);
+                    
+                    return \`
+                        <tr>
+                            <td>\${index + 1}</td>
+                            <td>\${record.date}</td>
+                            <td>\${record.time}</td>
+                            <td><span class="\${tempClass}">\${record.temperature}°C</span></td>
+                            <td>\${record.observations || '-'}</td>
+                            <td>\${record.signature}</td>
+                        </tr>
+                    \`;
+                }).join('')}
+            </tbody>
+        </table>
+    ` : '<p style="text-align: center; font-style: italic; color: #6c757d; padding: 40px;">Nu există înregistrări pentru acest spațiu frigorific.</p>'}
     
     <div class="footer">
         <p>Acest raport a fost generat automat de Sistemul HACCP de Monitorizare a Temperaturilor</p>
@@ -1599,30 +1134,30 @@
     </div>
     
     <script>
+        function getTempClass(temp, space) {
+            if (temp >= space.minTemp && temp <= space.maxTemp) return 'temp-good';
+            if (Math.abs(temp - space.maxTemp) <= 1 || Math.abs(temp - space.minTemp) <= 1) return 'temp-warning';
+            return 'temp-danger';
+        }
+        
         window.onload = function() {
             window.print();
         };
     </script>
 </body>
-</html>`;
-            
-            const printWindow = window.open('', '_blank');
-            printWindow.document.write(printPage);
+</html>`);
             printWindow.document.close();
         }
-        
-        function viewAllRecords() {
-            // Generate page with all records from all spaces
+
+        function showAllRecords() {
             alert('🚧 Funcționalitatea "Toate Înregistrările" va fi implementată în următoarea versiune.');
         }
-        
-        function viewAlerts() {
-            // Generate alerts page
+
+        function showAlerts() {
             alert('🚧 Funcționalitatea "Alerte Temperature" va fi implementată în următoarea versiune.');
         }
-        
+
         function exportData() {
-            // Export all data as JSON
             const allData = db.getAllRecords();
             const dataStr = JSON.stringify(allData, null, 2);
             const dataBlob = new Blob([dataStr], {type: 'application/json'});
@@ -1634,22 +1169,37 @@
             
             URL.revokeObjectURL(link.href);
         }
-        
-        function clearOldData() {
-            if (confirm('⚠️ Sigur doriți să ștergeți toate datele vechi? Această acțiune nu poate fi anulată.')) {
-                localStorage.removeItem('haccp_temperatures');
-                location.reload();
+
+        function clearData() {
+            if (confirm('⚠️ Sigur doriți să ștergeți toate datele? Această acțiune nu poate fi anulată.')) {
+                db.clearAllData();
+                updateDashboard();
+                alert('✅ Toate datele au fost șterse.');
             }
         }
-        
-        // Update dashboard statistics
+
         function updateDashboard() {
+            // Update general stats
+            document.getElementById('totalRecords').textContent = db.getTotalRecordsCount();
+            document.getElementById('todayRecords').textContent = db.getTodayRecordsCount();
+            
             // Update space-specific stats
+            const spaceMapping = {
+                'masa-rece-salate': 'salate',
+                'masa-rece-sosuri': 'sosuri',
+                'congelator-produse': 'congelator',
+                'frigider-ciorbe': 'ciorbe',
+                'frigider-legume': 'legume',
+                'frigider-sosuri-preparat': 'preparat',
+                'frigider-carne': 'carne',
+                'frigider-lactate': 'lactate',
+                'frigider-rezerva': 'rezerva'
+            };
+            
             Object.keys(spaces).forEach(spaceId => {
                 const count = db.getRecordsCount(spaceId);
                 const avg = db.getAverageTemp(spaceId);
-                
-                const shortId = spaceId.replace('masa-rece-', '').replace('frigider-', '').replace('congelator-', 'congelator');
+                const shortId = spaceMapping[spaceId];
                 
                 const countElement = document.getElementById(`${shortId}-count`);
                 const avgElement = document.getElementById(`${shortId}-avg`);
@@ -1657,10 +1207,6 @@
                 if (countElement) countElement.textContent = count;
                 if (avgElement) avgElement.textContent = avg ? `${avg}°C` : '-°C';
             });
-            
-            // Update general stats
-            document.getElementById('totalRecords').textContent = db.getTotalRecordsCount();
-            document.getElementById('todayRecords').textContent = db.getTodayRecordsCount();
             
             // Calculate alerts
             let alertsCount = 0;
@@ -1674,7 +1220,54 @@
             });
             document.getElementById('alertsCount').textContent = alertsCount;
         }
-        
+
+        // Form submission
+        document.getElementById('temperatureForm').addEventListener('submit', function(e) {
+            e.preventDefault();
+            
+            if (!currentSpaceId) return;
+            
+            const record = {
+                date: document.getElementById('date').value,
+                time: document.getElementById('time').value,
+                temperature: document.getElementById('temperature').value,
+                observations: document.getElementById('observations').value,
+                signature: document.getElementById('signature').value
+            };
+            
+            // Validate temperature
+            const temp = parseFloat(record.temperature);
+            if (isNaN(temp)) {
+                alert('❌ Te rog să introduci o temperatură validă!');
+                return;
+            }
+            
+            db.addRecord(currentSpaceId, record);
+            
+            // Clear form
+            document.getElementById('observations').value = '';
+            document.getElementById('signature').value = '';
+            
+            // Update current time
+            const now = new Date();
+            document.getElementById('time').value = now.toTimeString().split(':').slice(0,2).join(':');
+            
+            // Refresh display
+            updateDashboard();
+            renderRecords(currentSpaceId);
+            
+            // Show success message
+            alert('✅ Înregistrarea a fost salvată cu succes!');
+        });
+
+        // Close modal when clicking outside
+        window.onclick = function(event) {
+            const modal = document.getElementById('monitoringModal');
+            if (event.target === modal) {
+                closeModal();
+            }
+        };
+
         // Initialize dashboard on page load
         document.addEventListener('DOMContentLoaded', function() {
             updateDashboard();
@@ -1685,7 +1278,7 @@
                 updateDashboard();
             }
         });
-        
+
         // Add sample data for demonstration
         function addSampleData() {
             const today = new Date();
