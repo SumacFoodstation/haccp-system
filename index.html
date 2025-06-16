@@ -1,0 +1,581 @@
+
+<!DOCTYPE html>
+<html lang="ro">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>HACCP Mini - Monitorizare Temperature</title>
+    <style>
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+        body { font-family: Arial, sans-serif; background: #f0f2f5; padding: 20px; }
+        .container { max-width: 1200px; margin: 0 auto; background: white; border-radius: 15px; box-shadow: 0 10px 30px rgba(0,0,0,0.1); overflow: hidden; }
+        .header { background: #dc3545; color: white; padding: 30px; text-align: center; }
+        .header h1 { font-size: 2.5em; margin-bottom: 10px; }
+        .version { position: absolute; top: 10px; right: 20px; background: rgba(255,255,255,0.2); padding: 5px 10px; border-radius: 15px; font-size: 0.8em; }
+        .content { padding: 30px; }
+        .stats { display: grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); gap: 20px; margin-bottom: 30px; }
+        .stat { background: #f8f9fa; padding: 20px; border-radius: 10px; text-align: center; border: 2px solid #dee2e6; }
+        .stat-number { font-size: 2em; font-weight: bold; color: #007bff; margin-bottom: 5px; }
+        .stat-label { color: #6c757d; }
+        .spaces { display: grid; grid-template-columns: repeat(auto-fit, minmax(350px, 1fr)); gap: 20px; margin-bottom: 30px; }
+        .space { background: white; border-radius: 15px; box-shadow: 0 5px 15px rgba(0,0,0,0.08); overflow: hidden; border: 2px solid #dee2e6; transition: all 0.3s; }
+        .space:hover { transform: translateY(-5px); border-color: #007bff; }
+        .space-header { background: #f8f9fa; padding: 20px; border-bottom: 1px solid #dee2e6; }
+        .space-icon { font-size: 2em; margin-bottom: 10px; }
+        .space-name { font-size: 1.2em; font-weight: bold; color: #2c3e50; margin-bottom: 5px; }
+        .space-temp { color: #007bff; font-weight: 600; }
+        .space-body { padding: 20px; }
+        .space-stats { display: grid; grid-template-columns: 1fr 1fr; gap: 15px; margin-bottom: 15px; }
+        .mini-stat { text-align: center; padding: 10px; background: #f8f9fa; border-radius: 8px; }
+        .mini-number { font-size: 1.3em; font-weight: bold; color: #28a745; margin-bottom: 3px; }
+        .mini-label { font-size: 0.8em; color: #6c757d; }
+        .buttons { display: grid; grid-template-columns: 1fr 1fr; gap: 10px; }
+        .btn { padding: 10px 15px; border: none; border-radius: 8px; font-weight: 600; cursor: pointer; transition: all 0.3s; text-align: center; }
+        .btn-primary { background: #007bff; color: white; }
+        .btn-primary:hover { background: #0056b3; transform: translateY(-2px); }
+        .btn-success { background: #28a745; color: white; }
+        .btn-success:hover { background: #1e7e34; transform: translateY(-2px); }
+        .management { background: #f8f9fa; padding: 25px; border-radius: 15px; margin-top: 20px; }
+        .management h3 { text-align: center; margin-bottom: 15px; color: #2c3e50; }
+        .mgmt-buttons { display: grid; grid-template-columns: repeat(auto-fit, minmax(150px, 1fr)); gap: 10px; }
+        .btn-info { background: #17a2b8; color: white; }
+        .btn-danger { background: #dc3545; color: white; }
+        .modal { display: none; position: fixed; z-index: 1000; left: 0; top: 0; width: 100%; height: 100%; background: rgba(0,0,0,0.5); }
+        .modal-content { background: white; margin: 5% auto; padding: 0; border-radius: 15px; width: 90%; max-width: 800px; max-height: 80vh; overflow-y: auto; }
+        .modal-header { background: #dc3545; color: white; padding: 20px; border-radius: 15px 15px 0 0; position: relative; }
+        .close { color: white; float: right; font-size: 24px; font-weight: bold; cursor: pointer; position: absolute; right: 15px; top: 15px; }
+        .close:hover { opacity: 0.7; }
+        .modal-body { padding: 25px; }
+        .form-section { background: #f8f9fa; padding: 20px; border-radius: 10px; margin-bottom: 20px; }
+        .form-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(150px, 1fr)); gap: 15px; margin-bottom: 15px; }
+        .form-group { display: flex; flex-direction: column; }
+        .form-group label { font-weight: bold; margin-bottom: 5px; color: #2c3e50; }
+        .form-group input, .form-group textarea { padding: 8px; border: 2px solid #dee2e6; border-radius: 5px; transition: border-color 0.3s; }
+        .form-group input:focus, .form-group textarea:focus { outline: none; border-color: #007bff; }
+        .add-btn { background: #28a745; color: white; border: none; padding: 12px 25px; border-radius: 8px; font-weight: bold; cursor: pointer; width: 100%; transition: all 0.3s; }
+        .add-btn:hover { background: #1e7e34; transform: translateY(-2px); }
+        .table { width: 100%; border-collapse: collapse; background: white; border-radius: 8px; overflow: hidden; }
+        .table th { background: #007bff; color: white; padding: 12px; text-align: center; font-weight: bold; }
+        .table td { padding: 10px; text-align: center; border-bottom: 1px solid #dee2e6; }
+        .table tr:hover { background: #f8f9fa; }
+        .temp-ok { background: #d4edda; color: #155724; padding: 3px 8px; border-radius: 4px; font-weight: bold; }
+        .temp-warn { background: #fff3cd; color: #856404; padding: 3px 8px; border-radius: 4px; font-weight: bold; }
+        .temp-bad { background: #f8d7da; color: #721c24; padding: 3px 8px; border-radius: 4px; font-weight: bold; }
+        .no-data { text-align: center; color: #6c757d; font-style: italic; padding: 30px; }
+        @media (max-width: 768px) { .container { margin: 10px; } .spaces { grid-template-columns: 1fr; } .modal-content { width: 95%; margin: 10% auto; } }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div class="header">
+            <div class="version">v4.0 MINI</div>
+            <h1>🌡️ HACCP MINI</h1>
+            <p>Sistem Simplificat de Monitorizare Temperature</p>
+        </div>
+        
+        <div class="content">
+            <div class="stats">
+                <div class="stat">
+                    <div class="stat-number" id="totalCount">0</div>
+                    <div class="stat-label">Total Înregistrări</div>
+                </div>
+                <div class="stat">
+                    <div class="stat-number" id="todayCount">0</div>
+                    <div class="stat-label">Astăzi</div>
+                </div>
+                <div class="stat">
+                    <div class="stat-number" id="alertCount">0</div>
+                    <div class="stat-label">Alerte</div>
+                </div>
+                <div class="stat">
+                    <div class="stat-number">9</div>
+                    <div class="stat-label">Spații</div>
+                </div>
+            </div>
+            
+            <div class="spaces">
+                <div class="space">
+                    <div class="space-header">
+                        <div class="space-icon">🥗</div>
+                        <div class="space-name">Masa Rece Salate</div>
+                        <div class="space-temp">+2°C – +5°C</div>
+                    </div>
+                    <div class="space-body">
+                        <div class="space-stats">
+                            <div class="mini-stat">
+                                <div class="mini-number" id="salate-c">0</div>
+                                <div class="mini-label">Înregistrări</div>
+                            </div>
+                            <div class="mini-stat">
+                                <div class="mini-number" id="salate-a">-°C</div>
+                                <div class="mini-label">Media</div>
+                            </div>
+                        </div>
+                        <div class="buttons">
+                            <button class="btn btn-primary" onclick="openForm('salate')">📊 Monitorizare</button>
+                            <button class="btn btn-success" onclick="printSpace('salate')">🖨️ Print</button>
+                        </div>
+                    </div>
+                </div>
+                
+                <div class="space">
+                    <div class="space-header">
+                        <div class="space-icon">🍅</div>
+                        <div class="space-name">Masa Rece Sosuri</div>
+                        <div class="space-temp">+2°C – +5°C</div>
+                    </div>
+                    <div class="space-body">
+                        <div class="space-stats">
+                            <div class="mini-stat">
+                                <div class="mini-number" id="sosuri-c">0</div>
+                                <div class="mini-label">Înregistrări</div>
+                            </div>
+                            <div class="mini-stat">
+                                <div class="mini-number" id="sosuri-a">-°C</div>
+                                <div class="mini-label">Media</div>
+                            </div>
+                        </div>
+                        <div class="buttons">
+                            <button class="btn btn-primary" onclick="openForm('sosuri')">📊 Monitorizare</button>
+                            <button class="btn btn-success" onclick="printSpace('sosuri')">🖨️ Print</button>
+                        </div>
+                    </div>
+                </div>
+                
+                <div class="space">
+                    <div class="space-header">
+                        <div class="space-icon">🧊</div>
+                        <div class="space-name">Congelator Produse</div>
+                        <div class="space-temp">≤ -18°C</div>
+                    </div>
+                    <div class="space-body">
+                        <div class="space-stats">
+                            <div class="mini-stat">
+                                <div class="mini-number" id="congelator-c">0</div>
+                                <div class="mini-label">Înregistrări</div>
+                            </div>
+                            <div class="mini-stat">
+                                <div class="mini-number" id="congelator-a">-°C</div>
+                                <div class="mini-label">Media</div>
+                            </div>
+                        </div>
+                        <div class="buttons">
+                            <button class="btn btn-primary" onclick="openForm('congelator')">📊 Monitorizare</button>
+                            <button class="btn btn-success" onclick="printSpace('congelator')">🖨️ Print</button>
+                        </div>
+                    </div>
+                </div>
+                
+                <div class="space">
+                    <div class="space-header">
+                        <div class="space-icon">🍲</div>
+                        <div class="space-name">Frigider Ciorbe</div>
+                        <div class="space-temp">+2°C – +5°C</div>
+                    </div>
+                    <div class="space-body">
+                        <div class="space-stats">
+                            <div class="mini-stat">
+                                <div class="mini-number" id="ciorbe-c">0</div>
+                                <div class="mini-label">Înregistrări</div>
+                            </div>
+                            <div class="mini-stat">
+                                <div class="mini-number" id="ciorbe-a">-°C</div>
+                                <div class="mini-label">Media</div>
+                            </div>
+                        </div>
+                        <div class="buttons">
+                            <button class="btn btn-primary" onclick="openForm('ciorbe')">📊 Monitorizare</button>
+                            <button class="btn btn-success" onclick="printSpace('ciorbe')">🖨️ Print</button>
+                        </div>
+                    </div>
+                </div>
+                
+                <div class="space">
+                    <div class="space-header">
+                        <div class="space-icon">🥕</div>
+                        <div class="space-name">Frigider Legume</div>
+                        <div class="space-temp">+2°C – +5°C</div>
+                    </div>
+                    <div class="space-body">
+                        <div class="space-stats">
+                            <div class="mini-stat">
+                                <div class="mini-number" id="legume-c">0</div>
+                                <div class="mini-label">Înregistrări</div>
+                            </div>
+                            <div class="mini-stat">
+                                <div class="mini-number" id="legume-a">-°C</div>
+                                <div class="mini-label">Media</div>
+                            </div>
+                        </div>
+                        <div class="buttons">
+                            <button class="btn btn-primary" onclick="openForm('legume')">📊 Monitorizare</button>
+                            <button class="btn btn-success" onclick="printSpace('legume')">🖨️ Print</button>
+                        </div>
+                    </div>
+                </div>
+                
+                <div class="space">
+                    <div class="space-header">
+                        <div class="space-icon">🍝</div>
+                        <div class="space-name">Frigider Sosuri Gătite</div>
+                        <div class="space-temp">+2°C – +5°C</div>
+                    </div>
+                    <div class="space-body">
+                        <div class="space-stats">
+                            <div class="mini-stat">
+                                <div class="mini-number" id="gatite-c">0</div>
+                                <div class="mini-label">Înregistrări</div>
+                            </div>
+                            <div class="mini-stat">
+                                <div class="mini-number" id="gatite-a">-°C</div>
+                                <div class="mini-label">Media</div>
+                            </div>
+                        </div>
+                        <div class="buttons">
+                            <button class="btn btn-primary" onclick="openForm('gatite')">📊 Monitorizare</button>
+                            <button class="btn btn-success" onclick="printSpace('gatite')">🖨️ Print</button>
+                        </div>
+                    </div>
+                </div>
+                
+                <div class="space">
+                    <div class="space-header">
+                        <div class="space-icon">🥩</div>
+                        <div class="space-name">Frigider Carne</div>
+                        <div class="space-temp">0°C – +4°C</div>
+                    </div>
+                    <div class="space-body">
+                        <div class="space-stats">
+                            <div class="mini-stat">
+                                <div class="mini-number" id="carne-c">0</div>
+                                <div class="mini-label">Înregistrări</div>
+                            </div>
+                            <div class="mini-stat">
+                                <div class="mini-number" id="carne-a">-°C</div>
+                                <div class="mini-label">Media</div>
+                            </div>
+                        </div>
+                        <div class="buttons">
+                            <button class="btn btn-primary" onclick="openForm('carne')">📊 Monitorizare</button>
+                            <button class="btn btn-success" onclick="printSpace('carne')">🖨️ Print</button>
+                        </div>
+                    </div>
+                </div>
+                
+                <div class="space">
+                    <div class="space-header">
+                        <div class="space-icon">🥛</div>
+                        <div class="space-name">Frigider Lactate</div>
+                        <div class="space-temp">+2°C – +5°C</div>
+                    </div>
+                    <div class="space-body">
+                        <div class="space-stats">
+                            <div class="mini-stat">
+                                <div class="mini-number" id="lactate-c">0</div>
+                                <div class="mini-label">Înregistrări</div>
+                            </div>
+                            <div class="mini-stat">
+                                <div class="mini-number" id="lactate-a">-°C</div>
+                                <div class="mini-label">Media</div>
+                            </div>
+                        </div>
+                        <div class="buttons">
+                            <button class="btn btn-primary" onclick="openForm('lactate')">📊 Monitorizare</button>
+                            <button class="btn btn-success" onclick="printSpace('lactate')">🖨️ Print</button>
+                        </div>
+                    </div>
+                </div>
+                
+                <div class="space">
+                    <div class="space-header">
+                        <div class="space-icon">📦</div>
+                        <div class="space-name">Frigider Rezervă</div>
+                        <div class="space-temp">+2°C – +5°C</div>
+                    </div>
+                    <div class="space-body">
+                        <div class="space-stats">
+                            <div class="mini-stat">
+                                <div class="mini-number" id="rezerva-c">0</div>
+                                <div class="mini-label">Înregistrări</div>
+                            </div>
+                            <div class="mini-stat">
+                                <div class="mini-number" id="rezerva-a">-°C</div>
+                                <div class="mini-label">Media</div>
+                            </div>
+                        </div>
+                        <div class="buttons">
+                            <button class="btn btn-primary" onclick="openForm('rezerva')">📊 Monitorizare</button>
+                            <button class="btn btn-success" onclick="printSpace('rezerva')">🖨️ Print</button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            
+            <div class="management">
+                <h3>📋 Management Date</h3>
+                <div class="mgmt-buttons">
+                    <button class="btn btn-info" onclick="exportAll()">📤 Export</button>
+                    <button class="btn btn-danger" onclick="clearAll()">🗑️ Șterge</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div id="modal" class="modal">
+        <div class="modal-content">
+            <div class="modal-header">
+                <span class="close" onclick="closeForm()">&times;</span>
+                <h2 id="modalTitle">Monitorizare Temperatură</h2>
+                <div id="modalTemp"></div>
+            </div>
+            <div class="modal-body">
+                <div class="form-section">
+                    <h3>📝 Adaugă Măsurătoare</h3>
+                    <form id="tempForm">
+                        <div class="form-grid">
+                            <div class="form-group">
+                                <label>Data:</label>
+                                <input type="date" id="date" required>
+                            </div>
+                            <div class="form-group">
+                                <label>Ora:</label>
+                                <input type="time" id="time" required>
+                            </div>
+                            <div class="form-group">
+                                <label>Temperatura (°C):</label>
+                                <input type="number" id="temp" step="0.1" required>
+                            </div>
+                            <div class="form-group">
+                                <label>Semnătura:</label>
+                                <input type="text" id="sign" required>
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <label>Observații:</label>
+                            <textarea id="obs" rows="2"></textarea>
+                        </div>
+                        <button type="submit" class="add-btn">➕ Salvează</button>
+                    </form>
+                </div>
+                
+                <div id="records"></div>
+            </div>
+        </div>
+    </div>
+
+<script>
+console.log('🚀 HACCP MINI v4.0 - Pornit cu succes!');
+
+const db = {
+    key: 'haccp_mini',
+    get: () => JSON.parse(localStorage.getItem(db.key) || '{}'),
+    set: (data) => localStorage.setItem(db.key, JSON.stringify(data)),
+    add: (space, record) => {
+        const data = db.get();
+        if (!data[space]) data[space] = [];
+        record.id = Date.now();
+        record.time_stamp = new Date().toISOString();
+        data[space].push(record);
+        db.set(data);
+        return record.id;
+    },
+    getRecords: (space) => db.get()[space] || [],
+    clear: () => localStorage.removeItem(db.key)
+};
+
+const spaces = {
+    salate: { name: 'Masa Rece Salate', icon: '🥗', range: '+2°C – +5°C', min: 2, max: 5 },
+    sosuri: { name: 'Masa Rece Sosuri', icon: '🍅', range: '+2°C – +5°C', min: 2, max: 5 },
+    congelator: { name: 'Congelator Produse', icon: '🧊', range: '≤ -18°C', min: -30, max: -18 },
+    ciorbe: { name: 'Frigider Ciorbe', icon: '🍲', range: '+2°C – +5°C', min: 2, max: 5 },
+    legume: { name: 'Frigider Legume', icon: '🥕', range: '+2°C – +5°C', min: 2, max: 5 },
+    gatite: { name: 'Frigider Sosuri Gătite', icon: '🍝', range: '+2°C – +5°C', min: 2, max: 5 },
+    carne: { name: 'Frigider Carne', icon: '🥩', range: '0°C – +4°C', min: 0, max: 4 },
+    lactate: { name: 'Frigider Lactate', icon: '🥛', range: '+2°C – +5°C', min: 2, max: 5 },
+    rezerva: { name: 'Frigider Rezervă', icon: '📦', range: '+2°C – +5°C', min: 2, max: 5 }
+};
+
+let currentSpace = null;
+
+function openForm(spaceId) {
+    currentSpace = spaceId;
+    const space = spaces[spaceId];
+    document.getElementById('modalTitle').innerHTML = space.icon + ' ' + space.name;
+    document.getElementById('modalTemp').innerHTML = 'Temperatură țintă: ' + space.range;
+    
+    const now = new Date();
+    document.getElementById('date').value = now.toISOString().split('T')[0];
+    document.getElementById('time').value = now.toTimeString().slice(0,5);
+    document.getElementById('temp').value = '';
+    document.getElementById('sign').value = '';
+    document.getElementById('obs').value = '';
+    
+    showRecords(spaceId);
+    document.getElementById('modal').style.display = 'block';
+}
+
+function closeForm() {
+    document.getElementById('modal').style.display = 'none';
+    currentSpace = null;
+}
+
+function showRecords(spaceId) {
+    const records = db.getRecords(spaceId).reverse();
+    const container = document.getElementById('records');
+    
+    if (records.length === 0) {
+        container.innerHTML = '<div class="no-data">Nu există înregistrări</div>';
+        return;
+    }
+    
+    const space = spaces[spaceId];
+    let html = '<table class="table"><tr><th>Data</th><th>Ora</th><th>Temp</th><th>Observații</th><th>Semnătura</th></tr>';
+    
+    records.forEach(r => {
+        const t = parseFloat(r.temp);
+        const cls = (t >= space.min && t <= space.max) ? 'temp-ok' : 
+                   (Math.abs(t - space.max) <= 1 || Math.abs(t - space.min) <= 1) ? 'temp-warn' : 'temp-bad';
+        html += `<tr><td>${r.date}</td><td>${r.time}</td><td><span class="${cls}">${r.temp}°C</span></td><td>${r.obs || '-'}</td><td>${r.sign}</td></tr>`;
+    });
+    
+    html += '</table>';
+    container.innerHTML = html;
+}
+
+function printSpace(spaceId) {
+    const space = spaces[spaceId];
+    const records = db.getRecords(spaceId);
+    
+    const w = window.open('', '_blank');
+    let html = `<!DOCTYPE html><html><head><meta charset="UTF-8"><title>Raport ${space.name}</title>`;
+    html += '<style>@page{size:A4 portrait;margin:2cm}body{font-family:Arial;font-size:12px}h1{text-align:center;color:#2c3e50}table{width:100%;border-collapse:collapse;margin:20px 0}th,td{border:1px solid #333;padding:8px;text-align:center}th{background:#2c3e50;color:white}.temp-ok{background:#d4edda;color:#155724}.temp-warn{background:#fff3cd;color:#856404}.temp-bad{background:#f8d7da;color:#721c24}</style></head><body>';
+    html += `<h1>🌡️ RAPORT HACCP - ${space.icon} ${space.name}</h1>`;
+    html += `<p><strong>Temperatură țintă:</strong> ${space.range}</p>`;
+    html += `<p><strong>Data:</strong> ${new Date().toLocaleDateString('ro-RO')} <strong>Ora:</strong> ${new Date().toLocaleTimeString('ro-RO')}</p>`;
+    
+    if (records.length > 0) {
+        html += '<table><tr><th>Nr</th><th>Data</th><th>Ora</th><th>Temperatura</th><th>Observații</th><th>Semnătura</th></tr>';
+        records.reverse().forEach((r, i) => {
+            const t = parseFloat(r.temp);
+            const cls = (t >= space.min && t <= space.max) ? 'temp-ok' : 
+                       (Math.abs(t - space.max) <= 1 || Math.abs(t - space.min) <= 1) ? 'temp-warn' : 'temp-bad';
+            html += `<tr><td>${i+1}</td><td>${r.date}</td><td>${r.time}</td><td><span class="${cls}">${r.temp}°C</span></td><td>${r.obs || '-'}</td><td>${r.sign}</td></tr>`;
+        });
+        html += '</table>';
+    } else {
+        html += '<p>Nu există înregistrări.</p>';
+    }
+    
+    html += '<script>window.onload=()=>window.print();</script></body></html>';
+    w.document.write(html);
+    w.document.close();
+}
+
+function exportAll() {
+    const data = db.get();
+    const blob = new Blob([JSON.stringify(data, null, 2)], {type: 'application/json'});
+    const url = URL.createObjectURL(blob);
+    const a = document.createElement('a');
+    a.href = url;
+    a.download = `HACCP_Export_${new Date().toISOString().split('T')[0]}.json`;
+    a.click();
+    URL.revokeObjectURL(url);
+}
+
+function clearAll() {
+    if (confirm('Ștergi toate datele? Nu poți anula!')) {
+        db.clear();
+        updateStats();
+        alert('Date șterse!');
+    }
+}
+
+function updateStats() {
+    const data = db.get();
+    let total = 0, today = 0, alerts = 0;
+    const todayStr = new Date().toDateString();
+    
+    Object.keys(spaces).forEach(spaceId => {
+        const records = data[spaceId] || [];
+        const count = records.length;
+        total += count;
+        
+        const todayRecs = records.filter(r => new Date(r.time_stamp).toDateString() === todayStr);
+        today += todayRecs.length;
+        
+        const space = spaces[spaceId];
+        const spaceAlerts = records.filter(r => {
+            const t = parseFloat(r.temp);
+            return t < space.min || t > space.max;
+        });
+        alerts += spaceAlerts.length;
+        
+        const avg = count > 0 ? (records.reduce((sum, r) => sum + parseFloat(r.temp), 0) / count).toFixed(1) : null;
+        
+        const countEl = document.getElementById(spaceId + '-c');
+        const avgEl = document.getElementById(spaceId + '-a');
+        if (countEl) countEl.textContent = count;
+        if (avgEl) avgEl.textContent = avg ? avg + '°C' : '-°C';
+    });
+    
+    document.getElementById('totalCount').textContent = total;
+    document.getElementById('todayCount').textContent = today;
+    document.getElementById('alertCount').textContent = alerts;
+}
+
+document.getElementById('tempForm').addEventListener('submit', function(e) {
+    e.preventDefault();
+    if (!currentSpace) return;
+    
+    const record = {
+        date: document.getElementById('date').value,
+        time: document.getElementById('time').value,
+        temp: document.getElementById('temp').value,
+        obs: document.getElementById('obs').value,
+        sign: document.getElementById('sign').value
+    };
+    
+    if (!record.temp || isNaN(parseFloat(record.temp))) {
+        alert('Temperatură invalidă!');
+        return;
+    }
+    
+    db.add(currentSpace, record);
+    updateStats();
+    showRecords(currentSpace);
+    
+    document.getElementById('obs').value = '';
+    document.getElementById('sign').value = '';
+    const now = new Date();
+    document.getElementById('time').value = now.toTimeString().slice(0,5);
+    
+    alert('Salvat!');
+});
+
+window.onclick = function(e) {
+    if (e.target === document.getElementById('modal')) {
+        closeForm();
+    }
+};
+
+document.addEventListener('DOMContentLoaded', function() {
+    updateStats();
+    
+    if (Object.keys(db.get()).length === 0) {
+        const today = new Date().toISOString().split('T')[0];
+        const samples = [
+            {space: 'salate', temp: '3.2', obs: 'OK', sign: 'M.P.', time: '08:00'},
+            {space: 'carne', temp: '2.8', obs: 'Verificat', sign: 'A.S.', time: '09:00'},
+            {space: 'congelator', temp: '-19.5', obs: 'Perfect', sign: 'D.I.', time: '10:00'}
+        ];
+        
+        samples.forEach(s => {
+            db.add(s.space, {date: today, time: s.time, temp: s.temp, obs: s.obs, sign: s.sign});
+        });
+        
+        updateStats();
+    }
+});
+</script>
+</body>
+</html>
