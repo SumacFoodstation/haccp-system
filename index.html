@@ -3,76 +3,97 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>HACCP - Fix Test</title>
+    <title>HACCP Final - Clean</title>
     <style>
-        body { font-family: Arial, sans-serif; background: #f0f2f5; padding: 20px; }
-        .container { max-width: 1000px; margin: 0 auto; background: white; border-radius: 15px; padding: 20px; box-shadow: 0 5px 15px rgba(0,0,0,0.1); }
-        .header { background: #dc3545; color: white; padding: 25px; text-align: center; border-radius: 10px; margin-bottom: 25px; position: relative; }
-        .version { position: absolute; top: 10px; right: 15px; background: rgba(255,255,255,0.2); padding: 5px 10px; border-radius: 12px; font-size: 0.8em; }
-        .header h1 { font-size: 2.2em; margin-bottom: 8px; }
-        .stats { display: grid; grid-template-columns: repeat(auto-fit, minmax(180px, 1fr)); gap: 15px; margin-bottom: 25px; }
-        .stat { background: #f8f9fa; padding: 18px; border-radius: 8px; text-align: center; border: 2px solid #dee2e6; }
-        .stat-number { font-size: 1.8em; font-weight: bold; color: #007bff; margin-bottom: 5px; }
+        body { font-family: Arial, sans-serif; background: #f0f2f5; padding: 20px; margin: 0; }
+        .container { max-width: 1100px; margin: 0 auto; background: white; border-radius: 15px; padding: 20px; box-shadow: 0 5px 15px rgba(0,0,0,0.1); }
+        .header { background: #28a745; color: white; padding: 25px; text-align: center; border-radius: 10px; margin-bottom: 25px; position: relative; }
+        .version { position: absolute; top: 10px; right: 15px; background: rgba(255,255,255,0.3); padding: 5px 12px; border-radius: 15px; font-size: 0.8em; font-weight: bold; }
+        .header h1 { font-size: 2.2em; margin: 0 0 8px 0; }
+        .header p { margin: 0; font-size: 1.1em; opacity: 0.9; }
+        .stats { display: grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); gap: 20px; margin-bottom: 30px; }
+        .stat { background: #f8f9fa; padding: 20px; border-radius: 10px; text-align: center; border: 2px solid #dee2e6; transition: all 0.3s; }
+        .stat:hover { border-color: #007bff; transform: translateY(-2px); }
+        .stat-number { font-size: 2em; font-weight: bold; color: #007bff; margin-bottom: 5px; }
         .stat-label { color: #6c757d; font-size: 0.9em; }
-        .spaces { display: grid; grid-template-columns: repeat(auto-fit, minmax(300px, 1fr)); gap: 18px; }
+        .spaces { display: grid; grid-template-columns: repeat(auto-fit, minmax(320px, 1fr)); gap: 20px; margin-bottom: 30px; }
         .space { background: white; border-radius: 12px; box-shadow: 0 4px 12px rgba(0,0,0,0.08); overflow: hidden; border: 2px solid #dee2e6; transition: all 0.3s; }
-        .space:hover { transform: translateY(-3px); border-color: #007bff; }
-        .space-header { background: #f8f9fa; padding: 18px; border-bottom: 1px solid #dee2e6; }
-        .space-icon { font-size: 1.8em; margin-bottom: 8px; }
-        .space-name { font-size: 1.1em; font-weight: bold; color: #2c3e50; margin-bottom: 4px; }
-        .space-temp { color: #007bff; font-weight: 600; font-size: 0.95em; }
-        .space-body { padding: 18px; }
-        .buttons { display: grid; grid-template-columns: 1fr 1fr; gap: 8px; }
-        .btn { padding: 10px 12px; border: none; border-radius: 6px; font-weight: 600; cursor: pointer; transition: all 0.3s; text-align: center; font-size: 0.85em; }
+        .space:hover { transform: translateY(-5px); border-color: #007bff; box-shadow: 0 8px 25px rgba(0,0,0,0.15); }
+        .space-header { background: #f8f9fa; padding: 20px; border-bottom: 1px solid #dee2e6; }
+        .space-icon { font-size: 2em; margin-bottom: 10px; display: block; }
+        .space-name { font-size: 1.2em; font-weight: bold; color: #2c3e50; margin-bottom: 5px; }
+        .space-temp { color: #007bff; font-weight: 600; }
+        .space-body { padding: 20px; }
+        .space-stats { display: grid; grid-template-columns: 1fr 1fr; gap: 15px; margin-bottom: 20px; }
+        .mini-stat { text-align: center; padding: 12px; background: #f8f9fa; border-radius: 8px; }
+        .mini-number { font-size: 1.4em; font-weight: bold; color: #28a745; margin-bottom: 3px; }
+        .mini-label { font-size: 0.8em; color: #6c757d; }
+        .buttons { display: grid; grid-template-columns: 1fr 1fr; gap: 10px; }
+        .btn { padding: 12px 15px; border: none; border-radius: 8px; font-weight: 600; cursor: pointer; transition: all 0.3s; text-align: center; font-size: 0.9em; }
         .btn-primary { background: #007bff; color: white; }
-        .btn-primary:hover { background: #0056b3; transform: translateY(-1px); }
+        .btn-primary:hover { background: #0056b3; transform: translateY(-2px); box-shadow: 0 4px 12px rgba(0,123,255,0.3); }
         .btn-success { background: #28a745; color: white; }
-        .btn-success:hover { background: #1e7e34; transform: translateY(-1px); }
+        .btn-success:hover { background: #1e7e34; transform: translateY(-2px); box-shadow: 0 4px 12px rgba(40,167,69,0.3); }
+        .management { background: #f8f9fa; padding: 25px; border-radius: 15px; border: 2px solid #dee2e6; }
+        .management h3 { text-align: center; margin-bottom: 20px; color: #2c3e50; font-size: 1.3em; }
+        .mgmt-buttons { display: grid; grid-template-columns: repeat(auto-fit, minmax(160px, 1fr)); gap: 12px; }
+        .btn-info { background: #17a2b8; color: white; }
+        .btn-danger { background: #dc3545; color: white; }
         .modal { display: none; position: fixed; z-index: 1000; left: 0; top: 0; width: 100%; height: 100%; background: rgba(0,0,0,0.5); }
-        .modal-content { background: white; margin: 8% auto; padding: 0; border-radius: 12px; width: 85%; max-width: 650px; max-height: 75vh; overflow-y: auto; }
-        .modal-header { background: #dc3545; color: white; padding: 18px; border-radius: 12px 12px 0 0; position: relative; }
-        .close { color: white; float: right; font-size: 22px; font-weight: bold; cursor: pointer; position: absolute; right: 15px; top: 12px; }
+        .modal-content { background: white; margin: 5% auto; padding: 0; border-radius: 15px; width: 90%; max-width: 700px; max-height: 85vh; overflow-y: auto; box-shadow: 0 20px 60px rgba(0,0,0,0.3); }
+        .modal-header { background: #28a745; color: white; padding: 20px; border-radius: 15px 15px 0 0; position: relative; }
+        .close { color: white; float: right; font-size: 24px; font-weight: bold; cursor: pointer; position: absolute; right: 18px; top: 15px; }
         .close:hover { opacity: 0.7; }
-        .modal-body { padding: 20px; }
-        .form-section { background: #f8f9fa; padding: 18px; border-radius: 8px; margin-bottom: 18px; }
-        .form-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(140px, 1fr)); gap: 12px; margin-bottom: 12px; }
+        .modal-body { padding: 25px; }
+        .form-section { background: #f8f9fa; padding: 20px; border-radius: 10px; margin-bottom: 20px; border: 2px solid #dee2e6; }
+        .form-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(150px, 1fr)); gap: 15px; margin-bottom: 15px; }
         .form-group { display: flex; flex-direction: column; }
-        .form-group label { font-weight: bold; margin-bottom: 4px; color: #2c3e50; font-size: 0.9em; }
-        .form-group input, .form-group textarea { padding: 8px; border: 2px solid #dee2e6; border-radius: 4px; transition: border-color 0.3s; }
-        .form-group input:focus, .form-group textarea:focus { outline: none; border-color: #007bff; }
-        .add-btn { background: #28a745; color: white; border: none; padding: 12px 20px; border-radius: 6px; font-weight: bold; cursor: pointer; width: 100%; transition: all 0.3s; }
-        .add-btn:hover { background: #1e7e34; transform: translateY(-1px); }
-        .table { width: 100%; border-collapse: collapse; background: white; border-radius: 6px; overflow: hidden; }
-        .table th { background: #007bff; color: white; padding: 10px; text-align: center; font-weight: bold; font-size: 0.9em; }
-        .table td { padding: 8px; text-align: center; border-bottom: 1px solid #dee2e6; font-size: 0.85em; }
+        .form-group label { font-weight: bold; margin-bottom: 5px; color: #2c3e50; font-size: 0.9em; }
+        .form-group input, .form-group textarea { padding: 10px; border: 2px solid #dee2e6; border-radius: 6px; font-size: 14px; transition: border-color 0.3s; }
+        .form-group input:focus, .form-group textarea:focus { outline: none; border-color: #007bff; box-shadow: 0 0 0 3px rgba(0,123,255,0.1); }
+        .add-btn { background: #28a745; color: white; border: none; padding: 15px 25px; border-radius: 8px; font-weight: bold; cursor: pointer; width: 100%; font-size: 1.1em; transition: all 0.3s; }
+        .add-btn:hover { background: #1e7e34; transform: translateY(-2px); box-shadow: 0 6px 20px rgba(40,167,69,0.3); }
+        .table { width: 100%; border-collapse: collapse; background: white; border-radius: 8px; overflow: hidden; box-shadow: 0 2px 8px rgba(0,0,0,0.05); }
+        .table th { background: #007bff; color: white; padding: 12px; text-align: center; font-weight: bold; font-size: 0.9em; }
+        .table td { padding: 10px; text-align: center; border-bottom: 1px solid #dee2e6; font-size: 0.85em; }
         .table tr:hover { background: #f8f9fa; }
-        .temp-ok { background: #d4edda; color: #155724; padding: 2px 6px; border-radius: 3px; font-weight: bold; }
-        .temp-warn { background: #fff3cd; color: #856404; padding: 2px 6px; border-radius: 3px; font-weight: bold; }
-        .temp-bad { background: #f8d7da; color: #721c24; padding: 2px 6px; border-radius: 3px; font-weight: bold; }
-        .no-data { text-align: center; color: #6c757d; font-style: italic; padding: 25px; }
-        @media (max-width: 768px) { .container { margin: 8px; padding: 15px; } .spaces { grid-template-columns: 1fr; } .modal-content { width: 92%; margin: 15% auto; } }
+        .temp-ok { background: #d4edda; color: #155724; padding: 3px 8px; border-radius: 4px; font-weight: bold; }
+        .temp-warn { background: #fff3cd; color: #856404; padding: 3px 8px; border-radius: 4px; font-weight: bold; }
+        .temp-bad { background: #f8d7da; color: #721c24; padding: 3px 8px; border-radius: 4px; font-weight: bold; }
+        .no-data { text-align: center; color: #6c757d; font-style: italic; padding: 30px; }
+        @media (max-width: 768px) { 
+            body { padding: 10px; }
+            .container { margin: 0; padding: 15px; border-radius: 10px; }
+            .spaces { grid-template-columns: 1fr; }
+            .modal-content { width: 95%; margin: 10% auto; }
+            .form-grid { grid-template-columns: 1fr; }
+        }
     </style>
 </head>
 <body>
     <div class="container">
         <div class="header">
-            <div class="version">v5.0 FIX</div>
-            <h1>🌡️ HACCP FIX</h1>
-            <p>Versiune Script Fix - Test</p>
+            <div class="version">v6.0 FINAL</div>
+            <h1>🌡️ HACCP SYSTEM</h1>
+            <p>Sistem Complet de Monitorizare Temperature</p>
         </div>
         
         <div class="stats">
             <div class="stat">
-                <div class="stat-number" id="totalCount">0</div>
-                <div class="stat-label">Total</div>
+                <div class="stat-number" id="totalRecords">0</div>
+                <div class="stat-label">Total Înregistrări</div>
             </div>
             <div class="stat">
-                <div class="stat-number" id="todayCount">0</div>
-                <div class="stat-label">Astăzi</div>
+                <div class="stat-number" id="todayRecords">0</div>
+                <div class="stat-label">Înregistrări Astăzi</div>
             </div>
             <div class="stat">
-                <div class="stat-number">2</div>
-                <div class="stat-label">Test Spații</div>
+                <div class="stat-number" id="alertsCount">0</div>
+                <div class="stat-label">Alerte Active</div>
+            </div>
+            <div class="stat">
+                <div class="stat-number">9</div>
+                <div class="stat-label">Spații Monitorizate</div>
             </div>
         </div>
         
@@ -80,13 +101,47 @@
             <div class="space">
                 <div class="space-header">
                     <div class="space-icon">🥗</div>
-                    <div class="space-name">Test Salate</div>
+                    <div class="space-name">Masa Rece Salate</div>
                     <div class="space-temp">+2°C – +5°C</div>
                 </div>
                 <div class="space-body">
+                    <div class="space-stats">
+                        <div class="mini-stat">
+                            <div class="mini-number" id="salate-count">0</div>
+                            <div class="mini-label">Înregistrări</div>
+                        </div>
+                        <div class="mini-stat">
+                            <div class="mini-number" id="salate-avg">-°C</div>
+                            <div class="mini-label">Media Temp</div>
+                        </div>
+                    </div>
                     <div class="buttons">
-                        <button class="btn btn-primary" onclick="openTestForm('salate')">📊 Test</button>
-                        <button class="btn btn-success" onclick="printTest('salate')">🖨️ Print</button>
+                        <button class="btn btn-primary" onclick="openHACCPForm('salate')">📊 Monitorizare</button>
+                        <button class="btn btn-success" onclick="printHACCPReport('salate')">🖨️ Print</button>
+                    </div>
+                </div>
+            </div>
+            
+            <div class="space">
+                <div class="space-header">
+                    <div class="space-icon">🍅</div>
+                    <div class="space-name">Masa Rece Sosuri</div>
+                    <div class="space-temp">+2°C – +5°C</div>
+                </div>
+                <div class="space-body">
+                    <div class="space-stats">
+                        <div class="mini-stat">
+                            <div class="mini-number" id="sosuri-count">0</div>
+                            <div class="mini-label">Înregistrări</div>
+                        </div>
+                        <div class="mini-stat">
+                            <div class="mini-number" id="sosuri-avg">-°C</div>
+                            <div class="mini-label">Media Temp</div>
+                        </div>
+                    </div>
+                    <div class="buttons">
+                        <button class="btn btn-primary" onclick="openHACCPForm('sosuri')">📊 Monitorizare</button>
+                        <button class="btn btn-success" onclick="printHACCPReport('sosuri')">🖨️ Print</button>
                     </div>
                 </div>
             </div>
@@ -94,152 +149,466 @@
             <div class="space">
                 <div class="space-header">
                     <div class="space-icon">🧊</div>
-                    <div class="space-name">Test Congelator</div>
+                    <div class="space-name">Congelator Produse Ambalate</div>
                     <div class="space-temp">≤ -18°C</div>
                 </div>
                 <div class="space-body">
+                    <div class="space-stats">
+                        <div class="mini-stat">
+                            <div class="mini-number" id="congelator-count">0</div>
+                            <div class="mini-label">Înregistrări</div>
+                        </div>
+                        <div class="mini-stat">
+                            <div class="mini-number" id="congelator-avg">-°C</div>
+                            <div class="mini-label">Media Temp</div>
+                        </div>
+                    </div>
                     <div class="buttons">
-                        <button class="btn btn-primary" onclick="openTestForm('congelator')">📊 Test</button>
-                        <button class="btn btn-success" onclick="printTest('congelator')">🖨️ Print</button>
+                        <button class="btn btn-primary" onclick="openHACCPForm('congelator')">📊 Monitorizare</button>
+                        <button class="btn btn-success" onclick="printHACCPReport('congelator')">🖨️ Print</button>
+                    </div>
+                </div>
+            </div>
+            
+            <div class="space">
+                <div class="space-header">
+                    <div class="space-icon">🍲</div>
+                    <div class="space-name">Frigider Ciorbe</div>
+                    <div class="space-temp">+2°C – +5°C</div>
+                </div>
+                <div class="space-body">
+                    <div class="space-stats">
+                        <div class="mini-stat">
+                            <div class="mini-number" id="ciorbe-count">0</div>
+                            <div class="mini-label">Înregistrări</div>
+                        </div>
+                        <div class="mini-stat">
+                            <div class="mini-number" id="ciorbe-avg">-°C</div>
+                            <div class="mini-label">Media Temp</div>
+                        </div>
+                    </div>
+                    <div class="buttons">
+                        <button class="btn btn-primary" onclick="openHACCPForm('ciorbe')">📊 Monitorizare</button>
+                        <button class="btn btn-success" onclick="printHACCPReport('ciorbe')">🖨️ Print</button>
+                    </div>
+                </div>
+            </div>
+            
+            <div class="space">
+                <div class="space-header">
+                    <div class="space-icon">🥕</div>
+                    <div class="space-name">Frigider Legume & Fructe</div>
+                    <div class="space-temp">+2°C – +5°C</div>
+                </div>
+                <div class="space-body">
+                    <div class="space-stats">
+                        <div class="mini-stat">
+                            <div class="mini-number" id="legume-count">0</div>
+                            <div class="mini-label">Înregistrări</div>
+                        </div>
+                        <div class="mini-stat">
+                            <div class="mini-number" id="legume-avg">-°C</div>
+                            <div class="mini-label">Media Temp</div>
+                        </div>
+                    </div>
+                    <div class="buttons">
+                        <button class="btn btn-primary" onclick="openHACCPForm('legume')">📊 Monitorizare</button>
+                        <button class="btn btn-success" onclick="printHACCPReport('legume')">🖨️ Print</button>
+                    </div>
+                </div>
+            </div>
+            
+            <div class="space">
+                <div class="space-header">
+                    <div class="space-icon">🍝</div>
+                    <div class="space-name">Frigider Sosuri și Preparat Gătit</div>
+                    <div class="space-temp">+2°C – +5°C</div>
+                </div>
+                <div class="space-body">
+                    <div class="space-stats">
+                        <div class="mini-stat">
+                            <div class="mini-number" id="preparat-count">0</div>
+                            <div class="mini-label">Înregistrări</div>
+                        </div>
+                        <div class="mini-stat">
+                            <div class="mini-number" id="preparat-avg">-°C</div>
+                            <div class="mini-label">Media Temp</div>
+                        </div>
+                    </div>
+                    <div class="buttons">
+                        <button class="btn btn-primary" onclick="openHACCPForm('preparat')">📊 Monitorizare</button>
+                        <button class="btn btn-success" onclick="printHACCPReport('preparat')">🖨️ Print</button>
+                    </div>
+                </div>
+            </div>
+            
+            <div class="space">
+                <div class="space-header">
+                    <div class="space-icon">🥩</div>
+                    <div class="space-name">Frigider Carne</div>
+                    <div class="space-temp">0°C – +4°C</div>
+                </div>
+                <div class="space-body">
+                    <div class="space-stats">
+                        <div class="mini-stat">
+                            <div class="mini-number" id="carne-count">0</div>
+                            <div class="mini-label">Înregistrări</div>
+                        </div>
+                        <div class="mini-stat">
+                            <div class="mini-number" id="carne-avg">-°C</div>
+                            <div class="mini-label">Media Temp</div>
+                        </div>
+                    </div>
+                    <div class="buttons">
+                        <button class="btn btn-primary" onclick="openHACCPForm('carne')">📊 Monitorizare</button>
+                        <button class="btn btn-success" onclick="printHACCPReport('carne')">🖨️ Print</button>
+                    </div>
+                </div>
+            </div>
+            
+            <div class="space">
+                <div class="space-header">
+                    <div class="space-icon">🥛</div>
+                    <div class="space-name">Frigider Lactate</div>
+                    <div class="space-temp">+2°C – +5°C</div>
+                </div>
+                <div class="space-body">
+                    <div class="space-stats">
+                        <div class="mini-stat">
+                            <div class="mini-number" id="lactate-count">0</div>
+                            <div class="mini-label">Înregistrări</div>
+                        </div>
+                        <div class="mini-stat">
+                            <div class="mini-number" id="lactate-avg">-°C</div>
+                            <div class="mini-label">Media Temp</div>
+                        </div>
+                    </div>
+                    <div class="buttons">
+                        <button class="btn btn-primary" onclick="openHACCPForm('lactate')">📊 Monitorizare</button>
+                        <button class="btn btn-success" onclick="printHACCPReport('lactate')">🖨️ Print</button>
+                    </div>
+                </div>
+            </div>
+            
+            <div class="space">
+                <div class="space-header">
+                    <div class="space-icon">📦</div>
+                    <div class="space-name">Frigider/Congelator Rezervă</div>
+                    <div class="space-temp">+2°C – +5°C / ≤ -18°C</div>
+                </div>
+                <div class="space-body">
+                    <div class="space-stats">
+                        <div class="mini-stat">
+                            <div class="mini-number" id="rezerva-count">0</div>
+                            <div class="mini-label">Înregistrări</div>
+                        </div>
+                        <div class="mini-stat">
+                            <div class="mini-number" id="rezerva-avg">-°C</div>
+                            <div class="mini-label">Media Temp</div>
+                        </div>
+                    </div>
+                    <div class="buttons">
+                        <button class="btn btn-primary" onclick="openHACCPForm('rezerva')">📊 Monitorizare</button>
+                        <button class="btn btn-success" onclick="printHACCPReport('rezerva')">🖨️ Print</button>
                     </div>
                 </div>
             </div>
         </div>
+        
+        <div class="management">
+            <h3>📋 Management și Rapoarte</h3>
+            <div class="mgmt-buttons">
+                <button class="btn btn-info" onclick="exportHACCPData()">📤 Export Date</button>
+                <button class="btn btn-danger" onclick="clearHACCPData()">🗑️ Curățare Date</button>
+            </div>
+        </div>
     </div>
 
-    <div id="testModal" class="modal">
+    <div id="haccpModal" class="modal">
         <div class="modal-content">
             <div class="modal-header">
-                <span class="close" onclick="closeTestForm()">&times;</span>
-                <h2 id="modalTitle">Test Monitorizare</h2>
+                <span class="close" onclick="closeHACCPForm()">&times;</span>
+                <h2 id="modalTitle">Monitorizare Spațiu Frigorific</h2>
+                <div id="modalTempRange"></div>
             </div>
             <div class="modal-body">
                 <div class="form-section">
-                    <h3>📝 Test Formular</h3>
-                    <form id="testForm">
+                    <h3 style="margin-bottom: 20px; color: #2c3e50;">📝 Adaugă Înregistrare Nouă</h3>
+                    <form id="haccpForm">
                         <div class="form-grid">
                             <div class="form-group">
-                                <label>Data:</label>
-                                <input type="date" id="testDate" required>
+                                <label for="haccpDate">Data:</label>
+                                <input type="date" id="haccpDate" required>
                             </div>
                             <div class="form-group">
-                                <label>Ora:</label>
-                                <input type="time" id="testTime" required>
+                                <label for="haccpTime">Ora:</label>
+                                <input type="time" id="haccpTime" required>
                             </div>
                             <div class="form-group">
-                                <label>Temperatura:</label>
-                                <input type="number" id="testTemp" step="0.1" required>
+                                <label for="haccpTemp">Temperatura (°C):</label>
+                                <input type="number" id="haccpTemp" step="0.1" required placeholder="Ex: 3.5">
                             </div>
                             <div class="form-group">
-                                <label>Semnătura:</label>
-                                <input type="text" id="testSign" required>
+                                <label for="haccpSign">Semnătura:</label>
+                                <input type="text" id="haccpSign" required placeholder="Ex: M.P.">
                             </div>
                         </div>
-                        <button type="submit" class="add-btn">✅ Test Salvare</button>
+                        <div class="form-group" style="margin-top: 15px;">
+                            <label for="haccpObs">Observații:</label>
+                            <textarea id="haccpObs" rows="3" placeholder="Observații opționale..."></textarea>
+                        </div>
+                        <button type="submit" class="add-btn">➕ Adaugă Înregistrare</button>
                     </form>
                 </div>
                 
-                <div id="testResults">
-                    <div class="no-data">Completează formularul pentru test</div>
+                <div id="recordsContainer">
+                    <div class="no-data">Nu există înregistrări pentru acest spațiu frigorific.</div>
                 </div>
             </div>
         </div>
     </div>
 
-    <script type="text/javascript">
-        console.log('🔧 HACCP Fix Script - Loading...');
-        
-        var testData = [];
-        var currentTestSpace = '';
-        
-        function openTestForm(spaceId) {
-            console.log('openTestForm called with:', spaceId);
-            currentTestSpace = spaceId;
-            document.getElementById('modalTitle').innerHTML = '🧪 Test: ' + spaceId;
+    <script>
+        var haccpData = JSON.parse(localStorage.getItem('haccp_system') || '{}');
+        var currentSpace = null;
+        var spaces = {
+            'salate': { name: 'Masa Rece Salate', icon: '🥗', range: '+2°C – +5°C', min: 2, max: 5 },
+            'sosuri': { name: 'Masa Rece Sosuri', icon: '🍅', range: '+2°C – +5°C', min: 2, max: 5 },
+            'congelator': { name: 'Congelator Produse Ambalate', icon: '🧊', range: '≤ -18°C', min: -30, max: -18 },
+            'ciorbe': { name: 'Frigider Ciorbe', icon: '🍲', range: '+2°C – +5°C', min: 2, max: 5 },
+            'legume': { name: 'Frigider Legume & Fructe', icon: '🥕', range: '+2°C – +5°C', min: 2, max: 5 },
+            'preparat': { name: 'Frigider Sosuri și Preparat Gătit', icon: '🍝', range: '+2°C – +5°C', min: 2, max: 5 },
+            'carne': { name: 'Frigider Carne', icon: '🥩', range: '0°C – +4°C', min: 0, max: 4 },
+            'lactate': { name: 'Frigider Lactate', icon: '🥛', range: '+2°C – +5°C', min: 2, max: 5 },
+            'rezerva': { name: 'Frigider/Congelator Rezervă', icon: '📦', range: '+2°C – +5°C', min: -30, max: 5 }
+        };
+
+        function openHACCPForm(spaceId) {
+            currentSpace = spaceId;
+            var space = spaces[spaceId];
+            document.getElementById('modalTitle').innerHTML = space.icon + ' ' + space.name;
+            document.getElementById('modalTempRange').innerHTML = '<strong>Temperatură Țintă: ' + space.range + '</strong>';
             
             var now = new Date();
-            document.getElementById('testDate').value = now.toISOString().split('T')[0];
-            document.getElementById('testTime').value = now.toTimeString().slice(0,5);
-            document.getElementById('testTemp').value = '';
-            document.getElementById('testSign').value = '';
+            document.getElementById('haccpDate').value = now.toISOString().split('T')[0];
+            document.getElementById('haccpTime').value = now.toTimeString().slice(0,5);
+            document.getElementById('haccpTemp').value = '';
+            document.getElementById('haccpSign').value = '';
+            document.getElementById('haccpObs').value = '';
             
-            document.getElementById('testModal').style.display = 'block';
+            showHACCPRecords(spaceId);
+            document.getElementById('haccpModal').style.display = 'block';
         }
-        
-        function closeTestForm() {
-            console.log('closeTestForm called');
-            document.getElementById('testModal').style.display = 'none';
-            currentTestSpace = '';
+
+        function closeHACCPForm() {
+            document.getElementById('haccpModal').style.display = 'none';
+            currentSpace = null;
         }
-        
-        function printTest(spaceId) {
-            console.log('printTest called with:', spaceId);
+
+        function showHACCPRecords(spaceId) {
+            var records = (haccpData[spaceId] || []).slice().reverse();
+            var container = document.getElementById('recordsContainer');
+            
+            if (records.length === 0) {
+                container.innerHTML = '<div class="no-data">Nu există înregistrări pentru acest spațiu frigorific.</div>';
+                return;
+            }
+            
+            var space = spaces[spaceId];
+            var html = '<table class="table"><thead><tr><th>Data</th><th>Ora</th><th>Temperatura (°C)</th><th>Observații</th><th>Semnătura</th></tr></thead><tbody>';
+            
+            for (var i = 0; i < records.length; i++) {
+                var record = records[i];
+                var temp = parseFloat(record.temp);
+                var tempClass = 'temp-ok';
+                if (temp < space.min || temp > space.max) {
+                    tempClass = 'temp-bad';
+                } else if (Math.abs(temp - space.max) <= 1 || Math.abs(temp - space.min) <= 1) {
+                    tempClass = 'temp-warn';
+                }
+                
+                html += '<tr>';
+                html += '<td>' + record.date + '</td>';
+                html += '<td>' + record.time + '</td>';
+                html += '<td><span class="' + tempClass + '">' + record.temp + '°C</span></td>';
+                html += '<td>' + (record.obs || '-') + '</td>';
+                html += '<td>' + record.sign + '</td>';
+                html += '</tr>';
+            }
+            
+            html += '</tbody></table>';
+            container.innerHTML = html;
+        }
+
+        function printHACCPReport(spaceId) {
+            var space = spaces[spaceId];
+            var records = haccpData[spaceId] || [];
             
             var printWindow = window.open('', '_blank');
-            var html = '<!DOCTYPE html><html><head><meta charset="UTF-8"><title>Test Print</title>';
-            html += '<style>body{font-family:Arial;padding:20px}h1{color:#2c3e50;text-align:center}</style>';
-            html += '</head><body>';
-            html += '<h1>🖨️ TEST PRINT HACCP</h1>';
-            html += '<h2>Spațiu: ' + spaceId + '</h2>';
-            html += '<p>Data: ' + new Date().toLocaleDateString() + '</p>';
-            html += '<p>Test de printare reușit!</p>';
-            html += '<script>window.onload=function(){window.print();}</script>';
-            html += '</body></html>';
+            var html = '<!DOCTYPE html><html><head><meta charset="UTF-8"><title>Raport ' + space.name + ' - HACCP</title>';
+            html += '<style>@page{size:A4 portrait;margin:2cm}body{font-family:Arial;font-size:12px}h1{text-align:center;color:#2c3e50}table{width:100%;border-collapse:collapse;margin:20px 0}th,td{border:1px solid #333;padding:8px;text-align:center}th{background:#2c3e50;color:white}.temp-ok{background:#d4edda;color:#155724}.temp-warn{background:#fff3cd;color:#856404}.temp-bad{background:#f8d7da;color:#721c24}</style></head><body>';
+            html += '<h1>🌡️ RAPORT HACCP - ' + space.icon + ' ' + space.name + '</h1>';
+            html += '<p><strong>Temperatură țintă:</strong> ' + space.range + '</p>';
+            html += '<p><strong>Data:</strong> ' + new Date().toLocaleDateString('ro-RO') + ' <strong>Ora:</strong> ' + new Date().toLocaleTimeString('ro-RO') + '</p>';
             
+            if (records.length > 0) {
+                html += '<table><tr><th>Nr</th><th>Data</th><th>Ora</th><th>Temperatura</th><th>Observații</th><th>Semnătura</th></tr>';
+                for (var i = 0; i < records.length; i++) {
+                    var record = records[i];
+                    var temp = parseFloat(record.temp);
+                    var tempClass = 'temp-ok';
+                    if (temp < space.min || temp > space.max) {
+                        tempClass = 'temp-bad';
+                    } else if (Math.abs(temp - space.max) <= 1 || Math.abs(temp - space.min) <= 1) {
+                        tempClass = 'temp-warn';
+                    }
+                    html += '<tr><td>' + (i + 1) + '</td><td>' + record.date + '</td><td>' + record.time + '</td><td><span class="' + tempClass + '">' + record.temp + '°C</span></td><td>' + (record.obs || '-') + '</td><td>' + record.sign + '</td></tr>';
+                }
+                html += '</table>';
+            } else {
+                html += '<p>Nu există înregistrări.</p>';
+            }
+            
+            html += '<script>window.onload=function(){window.print()};</script></body></html>';
             printWindow.document.write(html);
             printWindow.document.close();
         }
-        
-        document.getElementById('testForm').addEventListener('submit', function(e) {
+
+        function exportHACCPData() {
+            var dataStr = JSON.stringify(haccpData, null, 2);
+            var dataBlob = new Blob([dataStr], {type: 'application/json'});
+            var url = URL.createObjectURL(dataBlob);
+            var a = document.createElement('a');
+            a.href = url;
+            a.download = 'HACCP_Export_' + new Date().toISOString().split('T')[0] + '.json';
+            a.click();
+            URL.revokeObjectURL(url);
+        }
+
+        function clearHACCPData() {
+            if (confirm('Sigur doriți să ștergeți toate datele? Această acțiune nu poate fi anulată.')) {
+                localStorage.removeItem('haccp_system');
+                haccpData = {};
+                updateHACCPStats();
+                alert('Toate datele au fost șterse.');
+            }
+        }
+
+        function updateHACCPStats() {
+            var total = 0, today = 0, alerts = 0;
+            var todayStr = new Date().toDateString();
+            
+            for (var spaceId in spaces) {
+                var records = haccpData[spaceId] || [];
+                var count = records.length;
+                total += count;
+                
+                var todayRecs = 0;
+                var spaceAlerts = 0;
+                var tempSum = 0;
+                
+                for (var i = 0; i < records.length; i++) {
+                    var record = records[i];
+                    if (new Date(record.timestamp || record.date).toDateString() === todayStr) {
+                        todayRecs++;
+                    }
+                    
+                    var temp = parseFloat(record.temp);
+                    tempSum += temp;
+                    if (temp < spaces[spaceId].min || temp > spaces[spaceId].max) {
+                        spaceAlerts++;
+                    }
+                }
+                
+                today += todayRecs;
+                alerts += spaceAlerts;
+                
+                var avg = count > 0 ? (tempSum / count).toFixed(1) : null;
+                
+                var countEl = document.getElementById(spaceId + '-count');
+                var avgEl = document.getElementById(spaceId + '-avg');
+                if (countEl) countEl.textContent = count;
+                if (avgEl) avgEl.textContent = avg ? avg + '°C' : '-°C';
+            }
+            
+            document.getElementById('totalRecords').textContent = total;
+            document.getElementById('todayRecords').textContent = today;
+            document.getElementById('alertsCount').textContent = alerts;
+        }
+
+        document.getElementById('haccpForm').addEventListener('submit', function(e) {
             e.preventDefault();
-            console.log('Form submit triggered');
+            if (!currentSpace) return;
             
             var record = {
-                space: currentTestSpace,
-                date: document.getElementById('testDate').value,
-                time: document.getElementById('testTime').value,
-                temp: document.getElementById('testTemp').value,
-                sign: document.getElementById('testSign').value,
+                date: document.getElementById('haccpDate').value,
+                time: document.getElementById('haccpTime').value,
+                temp: document.getElementById('haccpTemp').value,
+                obs: document.getElementById('haccpObs').value,
+                sign: document.getElementById('haccpSign').value,
                 timestamp: new Date().toISOString()
             };
             
             if (!record.temp || isNaN(parseFloat(record.temp))) {
-                alert('Temperatură invalidă!');
+                alert('Te rog să introduci o temperatură validă!');
                 return;
             }
             
-            testData.push(record);
+            if (!haccpData[currentSpace]) {
+                haccpData[currentSpace] = [];
+            }
             
-            var resultsHtml = '<div class="form-section">';
-            resultsHtml += '<h4>✅ Test Salvat!</h4>';
-            resultsHtml += '<p><strong>Spațiu:</strong> ' + record.space + '</p>';
-            resultsHtml += '<p><strong>Temperatură:</strong> ' + record.temp + '°C</p>';
-            resultsHtml += '<p><strong>Semnătura:</strong> ' + record.sign + '</p>';
-            resultsHtml += '<p><strong>Total teste:</strong> ' + testData.length + '</p>';
-            resultsHtml += '</div>';
+            haccpData[currentSpace].push(record);
+            localStorage.setItem('haccp_system', JSON.stringify(haccpData));
             
-            document.getElementById('testResults').innerHTML = resultsHtml;
-            document.getElementById('totalCount').textContent = testData.length;
+            document.getElementById('haccpObs').value = '';
+            document.getElementById('haccpSign').value = '';
             
-            console.log('Record saved:', record);
-            console.log('All test data:', testData);
+            var now = new Date();
+            document.getElementById('haccpTime').value = now.toTimeString().slice(0,5);
             
-            alert('✅ Test salvat cu succes!');
+            updateHACCPStats();
+            showHACCPRecords(currentSpace);
+            
+            alert('Înregistrarea a fost salvată cu succes!');
         });
-        
+
         window.onclick = function(event) {
-            if (event.target === document.getElementById('testModal')) {
-                closeTestForm();
+            if (event.target === document.getElementById('haccpModal')) {
+                closeHACCPForm();
             }
         };
-        
+
         document.addEventListener('DOMContentLoaded', function() {
-            console.log('DOM loaded - initializing...');
-            document.getElementById('totalCount').textContent = testData.length;
-            document.getElementById('todayCount').textContent = '0';
+            updateHACCPStats();
+            
+            if (Object.keys(haccpData).length === 0) {
+                var today = new Date().toISOString().split('T')[0];
+                var samples = [
+                    {space: 'salate', temp: '3.2', obs: 'OK', sign: 'M.P.', time: '08:00'},
+                    {space: 'carne', temp: '2.8', obs: 'Verificat', sign: 'A.S.', time: '09:00'},
+                    {space: 'congelator', temp: '-19.5', obs: 'Perfect', sign: 'D.I.', time: '10:00'}
+                ];
+                
+                for (var i = 0; i < samples.length; i++) {
+                    var sample = samples[i];
+                    if (!haccpData[sample.space]) {
+                        haccpData[sample.space] = [];
+                    }
+                    haccpData[sample.space].push({
+                        date: today,
+                        time: sample.time,
+                        temp: sample.temp,
+                        obs: sample.obs,
+                        sign: sample.sign,
+                        timestamp: new Date().toISOString()
+                    });
+                }
+                
+                localStorage.setItem('haccp_system', JSON.stringify(haccpData));
+                updateHACCPStats();
+            }
         });
-        
-        console.log('✅ HACCP Fix Script - Loaded Successfully!');
     </script>
 </body>
 </html>
